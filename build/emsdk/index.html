@@ -1,0 +1,83 @@
+<!doctype html>
+
+
+<html>
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-44778990-4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-44778990-4');
+    </script>
+
+    <link rel="dns-prefetch" href="//www1s.xrick.net" />
+    <link rel="dns-prefetch" href="//ajax.googleapis.com" />
+
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="robots" content="all" />
+    <meta name="copyright" content="Copyright (c) 1985-2020 pilotine / Stéphane Gay" />
+    <meta name="description" content="xrick - Rick Dangerous" />
+    <meta name="author" content="pilotine / Stéphane Gay aka ZpqrtBnk" />
+    <meta name="keywords" content="zpqrtbnk, pilotine, xrick, Rick Dangerous" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>xrick</title>
+
+    <link href="/css/xrick/style.min.css" rel="stylesheet" type="text/css" />
+    <link href="/img/xrick/icon.png" rel="shortcut icon" type="image/png" sizes="32x32" />
+    <link href="/img/xrick/icon.png" rel="icon" type="image/png" sizes="32x32" />
+
+    <script>window.readyActions = []; window.ready = function (action) { window.readyActions.push(action); };</script>
+</head>
+<body>
+    <div id="header">
+        <div class="brand"><a href="/" title="xrick"><span>xrick</span></a></div>
+        <div class="about"><a href="/about/">about</a></div>
+    </div>
+    <div id="content">
+        
+
+<div id="player">
+    <div id="xrick"><span>...</span></div>
+    <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+</div>
+<div id="controls">
+    <div id="controls2">
+        <div id="control_fire"></div>
+        <div id="control_pad"></div>
+    </div>
+    <div id="controls1">
+        <div id="control_mute" title="Mute">M</div>
+        <div id="control_snd1" title="Raise volume">S-</div>
+        <div id="control_snd2" title="Lower volume">S+</div>
+        <div id="control_cheat1" title="Trainer (infinite everything)">T</div>
+        <div id="control_cheat2" title="Invincible (cannot die)">I</div>
+        <div id="control_cheat3" title="Highlights (highlight entities)">H</div>
+        <div id="control_end" title="End">E</div>
+        <div id="control_pause" title="Pause">P</div>
+    </div>
+</div>
+<div id="player_console"></div>
+<script defer type="text/javascript" src="player.js"></script>
+<script defer type="text/javascript" src="xrick.js"></script>
+
+    </div>
+
+    <div id="footer">
+        Rick Dangerous &copy; Who Knows Who And When?<br />
+        xrick and this site Copyright &copy; 1985-2020 Stéphane Gay
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/js/jquery/jquery-3.4.1.min.js"><\/script>')</script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        // execute queued ready actions
+        window.ready = function(action) { action(); };
+        for (var i = 0; i < window.readyActions.length; i++)
+            window.readyActions[i]();
+    });
+    </script>
+</body>
+</html>

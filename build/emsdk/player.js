@@ -295,7 +295,7 @@ Module['arguments'] = args;
 
 Module['locateFile'] = function (path, prefix) {
     // if it's the data file, use cdn
-    if (path.endsWith(".data")) return "http://www1.xrick.net/" + path;
+    //if (path.endsWith(".data")) return "http://www1.xrick.net/" + path;
     // otherwise, use the default, the prefix (JS file's dir) + the path
     return prefix + path;
 }

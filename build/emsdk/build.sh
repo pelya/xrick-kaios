@@ -27,7 +27,7 @@ for f in "$SRC"/*.c; \
     -s USE_SDL=2 \
     -D NOZLIB \
     -O2 \
-    ; \
+    || exit 1 ; \
 done
 echo
 
@@ -37,11 +37,13 @@ emcc *.bc -o xrick.js \
   -s USE_SDL=2 \
   -s FORCE_FILESYSTEM=1 \
   -O2 \
-  --preload-file "$DATA@/data"
+  --preload-file "$DATA@/data" \
+  || exit 1
 echo
 
 echo Copy files...
 cp "$PATH_XRICK/build/emsdk/player.js" player.js
+cp "$PATH_XRICK/build/emsdk/index.html" index.html
 
 echo Compress...
 rm -rf  gz
@@ -50,6 +52,7 @@ gzip -c -9 xrick.data > gz/xrick.data
 gzip -c -9 xrick.wasm > gz/xrick.wasm
 gzip -c -9 xrick.js > gz/xrick.js
 gzip -c -9 player.js > gz/player.js
+gzip -c -9 index.html > gz/index.html
 
 echo Remember to:
 echo Upload the files
