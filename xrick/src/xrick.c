@@ -27,7 +27,7 @@
 /*
  * Sets a console, if possible
  */
-static setConsole()
+static void setConsole()
 {
 	// NOTE: does not handle parent process console being redirected
 	// eg "./xrick > stdout.txt" still writes to the actual console

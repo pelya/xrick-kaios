@@ -22,7 +22,7 @@
 #include "img.h"
 #include "fb.h"
 
-#include "img_splash.e"
+//#include "img_splash.e"
 
 /*
  * Display XRICK splash screen

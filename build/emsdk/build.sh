@@ -2,9 +2,9 @@
 # runs in build.tmp
 
 # configure pathsg
-PATH_PYTHON=/c/python27-x64
-PATH_EMSDK="/d/d/EmSdk"
-PATH_XRICK="/d/d/Rick Dangerous/wip/xrick-vs19"
+[ -z "$PATH_PYTHON" ] && PATH_PYTHON="which python | xargs dirname"
+[ -z "$PATH_EMSDK" ] && PATH_EMSDK="`which emsdk | xargs dirname`"
+[ -z "$PATH_XRICK" ] && PATH_XRICK="`pwd`/../.."
 
 # ensure Python
 echo Adding Python directory to PATH:

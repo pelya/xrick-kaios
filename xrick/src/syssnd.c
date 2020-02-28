@@ -26,6 +26,8 @@
 #include "data.h"
 
 #ifdef EMSCRIPTEN
+#undef SDL_mutexP
+#undef SDL_mutexV
 #define SDL_mutexP(m)
 #define SDL_mutexV(m)
 #endif
