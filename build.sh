@@ -1,3 +1,4 @@
+#!/bin/bash
 # xrick emscripten build script
 # runs in build.tmp
 
