@@ -26,5 +26,5 @@
   "categories": [ "games" ],
   "default_locale": "en-US",
   "orientation": [ "landscape" ],
-  "precompile": [ "xrick.js", "jquery-3.4.1.min.js" ]
+  "precompile": [ "xrick.js" ]
 }
