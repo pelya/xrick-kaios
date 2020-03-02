@@ -4,7 +4,7 @@
 # configure pathsg
 [ -z "$PATH_PYTHON" ] && PATH_PYTHON="which python | xargs dirname"
 [ -z "$PATH_EMSDK" ] && PATH_EMSDK="`which emsdk | xargs dirname`"
-[ -z "$PATH_XRICK" ] && PATH_XRICK="`pwd`/../.."
+[ -z "$PATH_XRICK" ] && PATH_XRICK="`realpath $0 | xargs dirname`/../.."
 
 # ensure Python
 echo Adding Python directory to PATH:
@@ -21,29 +21,26 @@ INC="$PATH_XRICK/xrick/include"
 DATA="$PATH_XRICK/data"
 
 echo Compiling...
-for f in "$SRC"/*.c; \
-  do emcc "$f" -o $(basename -- "${f%.c}").bc \
+
+emcc $SRC/*.c -o xrick.js \
     -I "$INC" \
     -s USE_SDL=2 \
+    -s FORCE_FILESYSTEM=1 \
     -D NOZLIB \
     -O2 \
-    || exit 1 ; \
-done
-echo
+    --preload-file "$DATA@/data" \
+    || exit 1
 
-echo Linking...
-# -o .wasm .html .js
-emcc *.bc -o xrick.js \
-  -s USE_SDL=2 \
-  -s FORCE_FILESYSTEM=1 \
-  -O2 \
-  --preload-file "$DATA@/data" \
-  || exit 1
 echo
 
 echo Copy files...
-cp "$PATH_XRICK/build/emsdk/player.js" player.js
-cp "$PATH_XRICK/build/emsdk/index.html" index.html
+if [ "`pwd`" != "$PATH_XRICK/build/emsdk" ]; then
+    cp "$PATH_XRICK/build/emsdk/player.js" player.js
+    cp "$PATH_XRICK/build/emsdk/index.html" index.html
+    cp "$PATH_XRICK/build/emsdk/jquery-3.4.1.min.js" jquery-3.4.1.min.js
+    cp "$PATH_XRICK/build/emsdk/style.min.css" style.min.css
+    cp "$PATH_XRICK/build/emsdk/icon.png" icon.png
+fi
 
 echo Compress...
 rm -rf  gz
