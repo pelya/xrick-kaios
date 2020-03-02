@@ -28,7 +28,7 @@ emcc $SRC/*.c -o xrick.js \
     -s FORCE_FILESYSTEM=1 \
     -D NOZLIB \
     -O2 \
-    --preload-file "$DATA@/data" \
+    --preload-file "$DATA" \
     || exit 1
 
 echo
@@ -40,21 +40,14 @@ if [ "`pwd`" != "$PATH_XRICK/build/emsdk" ]; then
     cp "$PATH_XRICK/build/emsdk/jquery-3.4.1.min.js" jquery-3.4.1.min.js
     cp "$PATH_XRICK/build/emsdk/style.min.css" style.min.css
     cp "$PATH_XRICK/build/emsdk/icon.png" icon.png
+    cp "$PATH_XRICK/build/emsdk/splash.png" splash.png
+    cp "$PATH_XRICK/build/emsdk/xrick-b.png" xrick-b.png
+    cp "$PATH_XRICK/build/emsdk/pad.png" pad.png
+    cp "$PATH_XRICK/build/emsdk/fire.png" fire.png
+    cp "$PATH_XRICK/build/emsdk/manifest.webapp" manifest.webapp
 fi
 
-echo Compress...
-rm -rf  gz
-mkdir gz
-gzip -c -9 xrick.data > gz/xrick.data
-gzip -c -9 xrick.wasm > gz/xrick.wasm
-gzip -c -9 xrick.js > gz/xrick.js
-gzip -c -9 player.js > gz/player.js
-gzip -c -9 index.html > gz/index.html
-
-echo Remember to:
-echo Upload the files
-echo Set the WASM Content-Type HTTP header to application/wasm
-echo Set the DATA Content-Type HTTP header to application/octet-stream
-echo Set the compressed Content-Encoding to gzip
+rm -f application.zip
+zip application.zip manifest.webapp *.data *.js *.html *.css *.png # *.wasm # WebAssembly not supported on KaiOS
 
 echo Done.

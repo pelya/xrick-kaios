@@ -1,0 +1,30 @@
+{
+  "name": "XRick",
+   "version": "05.05.00",
+  "description": "XRick is a clone of Rick Dangerous, running away from rolling rocks, avoiding traps, from South America to a futuristic missile base via Egypt and the Schwarzendumpf castle.",
+  "subtitle": "XRick",
+  "launch_path": "/index.html",
+  "origin": "app://XRick",
+  "icons": {
+    "56": "icon_56.png",
+    "112": "icon_112.png"
+  },
+  "theme_color": "#65ACFF",
+  "developer": {
+    "name": "bigorno",
+    "url": "http://www.bigorno.net/xrick"
+  },
+  "type": "web",
+  "fullscreen": "true",
+  "locales": {
+    "en-US": {
+      "name": "XRick",
+      "description": "XRick is a clone of Rick Dangerous, running away from rolling rocks, avoiding traps, from South America to a futuristic missile base via Egypt and the Schwarzendumpf castle.",
+      "subtitle": "Avoid traps, collect treasure"
+    }
+  },
+  "categories": [ "games" ],
+  "default_locale": "en-US",
+  "orientation": [ "landscape" ],
+  "precompile": [ "xrick.js", "jquery-3.4.1.min.js" ]
+}

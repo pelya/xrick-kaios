@@ -1,1 +1,195 @@
-﻿body{margin:0;padding:0;font-family:Arial;}a{color:#ddd;text-decoration:underline;}#header{background:#000;height:48px;max-width:750px;margin:0 auto;position:relative;}#header .brand a{display:block;position:relative;font-size:36px;text-decoration:none;height:48px;padding-left:48px;background-image:url('/img/xrick/xrick-b.png');background-repeat:no-repeat;background-position:8px 2px;}#header .brand a span{position:absolute;bottom:-4px;}#header .about{position:absolute;bottom:0;right:8px;font-size:17px;}#header .about a,#header .about a:visited{color:#ddd;text-decoration:none;}#header .about a:hover{text-decoration:underline;}#player::before{display:block;content:'';width:100%;height:0;padding-bottom:62.5%;margin:0 auto;}#content{margin:24px auto;position:relative;max-width:750px;}#player{max-width:640px;margin:0 auto;position:relative;}#xrick{height:100%;width:100%;background:#eee;background-image:url('/img/xrick/splash.png');background-repeat:no-repeat;background-position:center center;background-size:cover;cursor:pointer;position:absolute;top:0;left:0;}#xrick span{display:block;text-align:center;color:#630;position:absolute;bottom:10%;width:100%;}#canvas{display:none;border:0 none;padding:0;background-color:#000;position:absolute;top:0;left:0;height:100%;width:100%;}#controls #controls1,#controls #controls2{display:flex;}#controls #controls1{margin:12px 0;justify-content:center;}#controls #controls1 div{background-color:#000;color:#fff;width:32px;height:32px;text-align:center;line-height:32px;font-weight:bold;font-size:12px;cursor:pointer;}#controls #controls1 div+div{margin-left:4px;}#controls #controls2{display:none;margin:4px 0;}#controls #controls2 div{background-color:#eee;padding-top:42%;}#controls #controls2 div+div{margin-left:4px;}#controls #control_fire{flex:1 1 auto;background:url('/img/xrick/fire.png') no-repeat center center;}#controls #control_pad{flex:2 1 auto;background:url('/img/xrick/pad.png') no-repeat center center;}#player_console{display:none;background:#ddd;font-family:Consolas,'Courier New',monospace;font-size:8px;max-width:640px;margin:24px auto;}#content div.text{margin:48px auto;max-width:640px;font-size:15px;line-height:1.5;}#content div.text a,#content div.text a:visited{color:#630;}#footer{position:fixed;bottom:0;background:#000;height:18px;color:#ddd;width:100%;text-align:center;font-size:9px;padding:14px 0 16px 0;max-width:750px;right:0;left:0;margin:0 auto;}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+}
+
+a {
+    color: #ddd;
+    text-decoration: underline;
+}
+
+#header {
+    background: #000;
+    height: 48px;
+    max-width: 750px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#header .brand a {
+    display: block;
+    position: relative;
+    font-size: 36px;
+    text-decoration: none;
+    height: 48px;
+    padding-left: 48px;
+    background-image: url('xrick-b.png');
+    background-repeat: no-repeat;
+    background-position: 8px 2px;
+}
+
+#header .brand a span {
+    position: absolute;
+    bottom: -4px;
+}
+
+#header .about {
+    position: absolute;
+    bottom: 0;
+    right: 8px;
+    font-size: 17px;
+}
+
+#header .about a,
+#header .about a:visited {
+    color: #ddd;
+    text-decoration: none;
+}
+
+#header .about a:hover {
+    text-decoration: underline;
+}
+
+#player::before {
+    display: block;
+    content: '';
+    width: 100%;
+    height: 0;
+    padding-bottom: 62.5%;
+    margin: 0 auto;
+}
+
+#content {
+    margin: 24px auto;
+    position: relative;
+    max-width: 750px;
+}
+
+#player {
+    max-width: 640px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#xrick {
+    height: 100%;
+    width: 100%;
+    background: #eee;
+    background-image: url('splash.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#xrick span {
+    display: block;
+    text-align: center;
+    color: #630;
+    position: absolute;
+    bottom: 10%;
+    width: 100%;
+}
+
+#canvas {
+    display: none;
+    border: 0 none;
+    padding: 0;
+    background-color: #000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#controls #controls1,
+#controls #controls2 {
+    display: flex;
+}
+
+#controls #controls1 {
+    margin: 12px 0;
+    justify-content: center;
+}
+
+#controls #controls1 div {
+    background-color: #000;
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    line-height: 32px;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+#controls #controls1 div+div {
+    margin-left: 4px;
+}
+
+#controls #controls2 {
+    display: none;
+    margin: 4px 0;
+}
+
+#controls #controls2 div {
+    background-color: #eee;
+    padding-top: 42%;
+}
+
+#controls #controls2 div+div {
+    margin-left: 4px;
+}
+
+#controls #control_fire {
+    flex: 1 1 auto;
+    background: url('fire.png') no-repeat center center;
+}
+
+#controls #control_pad {
+    flex: 2 1 auto;
+    background: url('pad.png') no-repeat center center;
+}
+
+#player_console {
+    display: none;
+    background: #ddd;
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 8px;
+    max-width: 640px;
+    margin: 24px auto;
+}
+
+#content div.text {
+    margin: 48px auto;
+    max-width: 640px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+#content div.text a,
+#content div.text a:visited {
+    color: #630;
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    background: #000;
+    height: 18px;
+    color: #ddd;
+    width: 100%;
+    text-align: center;
+    font-size: 9px;
+    padding: 14px 0 16px 0;
+    max-width: 750px;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+}

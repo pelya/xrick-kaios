@@ -86,6 +86,7 @@ var Module = {
     }
 };
 
+/*
 window.onerror = function (event) {
     // TODO: do not warn on ok events like simulating an infinite loop or exitStatus
     console.error(event.toString());
@@ -94,6 +95,7 @@ window.onerror = function (event) {
         if (text) Module.printErr('[post-exception status] ' + text);
     };
 };
+*/
 
 function console2div() {
     $('#player_console').show();
