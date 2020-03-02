@@ -1,0 +1,3 @@
+[submodule "build/make-kaios-install"]
+	path = build/make-kaios-install
+	url = https://github.com/jkelol111/make-kaios-install.git
