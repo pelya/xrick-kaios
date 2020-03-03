@@ -24,7 +24,7 @@
 /* logging (write to console) */
 #define ENABLE_LOG
 #ifdef EMSCRIPTEN
-//#undef ENABLE_LOG
+#undef ENABLE_LOG
 #endif
 
 /* joystick support */
