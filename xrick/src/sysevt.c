@@ -49,6 +49,8 @@ processEvent()
 	case SDL_KEYDOWN:
 		key = event.key.keysym.scancode;
 		//key = event.key.keysym.sym;
+		// TODO: DEBUG< remove this
+		sys_printf("key %d %s\n", key, SDL_GetScancodeName(event.key.keysym.scancode));
 		if (key == syskbd_up || key == SDL_SCANCODE_UP) {
 			SETBIT(control_status, CONTROL_UP);
 			control_last = CONTROL_UP;

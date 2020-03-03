@@ -109,7 +109,7 @@ data_file_open(char *name)
 
 	if (path.zip) {
 	    z = malloc(sizeof(zipped_t));
-	    z->name = _strdup(name);
+	    z->name = strdup(name);
 	    z->zip = unzDup(path.zip);
 	    if (unzLocateFile(z->zip, name, 0) != UNZ_OK ||
 	    	unzOpenCurrentFile(z->zip) != UNZ_OK) {

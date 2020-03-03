@@ -56,11 +56,12 @@ static SDL_Window *screen;
 static SDL_Renderer *renderer;
 static SDL_Texture* texture;
 static U32 videoFlags;
+#define gamma sv_gamma
 static U8 gamma;
 static U16 fb_width, fb_height;
 
 static U8 zoom = 0; /* actual zoom level */
-static U8 wmzoom = SYSVID_ZOOM; /* window mode zoom level */
+static U8 wmzoom = 1; /* window mode zoom level */
 static U8 mxzoom = SYSVID_ZOOM * 2; /* max zoom level */
 
 

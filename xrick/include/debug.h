@@ -27,7 +27,7 @@
 
 /* define global debug option */
 #ifdef DEBUG
-#define DEBUG_ENTS
+//#define DEBUG_ENTS
 #undef DEBUG_SCROLLER
 #define DEBUG_MAPS
 #undef DEBUG_JOYSTICK

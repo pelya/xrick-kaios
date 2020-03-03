@@ -39,7 +39,7 @@ screen_xrick(void)
 	{
 		fb_clear();
 		sysvid_setGamma(255);
-		img_paintImg(IMG_SPLASH);
+		//img_paintImg(IMG_SPLASH);
 		game_rects = &draw_SCREENRECT;
 		seq = 1;
 	}
