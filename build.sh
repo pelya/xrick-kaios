@@ -38,15 +38,11 @@ echo
 
 echo Copy files...
 if [ "`pwd`" != "$PATH_XRICK/build/emsdk" ]; then
-    cp "$PATH_XRICK/build/emsdk/manifest.webapp" ./
-    cp "$PATH_XRICK/build/emsdk/xrick.html" ./
-    cp "$PATH_XRICK/build/emsdk/icon_56.png" ./
-    cp "$PATH_XRICK/build/emsdk/icon_112.png" ./
-    cp "$PATH_XRICK/build/emsdk/favicon.ico" ./
-#    cp "$PATH_XRICK/build/emsdk/splash.png" ./
-#    cp "$PATH_XRICK/build/emsdk/xrick-b.png" ./
-#    cp "$PATH_XRICK/build/emsdk/pad.png" ./
-#    cp "$PATH_XRICK/build/emsdk/fire.png" ./
+    cp "$PATH_XRICK/build/app/manifest.webapp" ./
+    cp "$PATH_XRICK/build/app/xrick.html" ./
+    cp "$PATH_XRICK/build/app/icon_56.png" ./
+    cp "$PATH_XRICK/build/app/icon_112.png" ./
+    cp "$PATH_XRICK/build/app/favicon.ico" ./
 fi
 
 rm -f application.zip
