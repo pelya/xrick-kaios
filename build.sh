@@ -32,18 +32,16 @@ emcc $SRC/*.c -o xrick.html \
     -D NOZLIB \
     -O2 \
     --preload-file "$DATA" \
+    --shell-file $PATH_XRICK/build/app/shell_minimal.html \
     || exit 1
 
 echo
 
 echo Copy files...
-if [ "`pwd`" != "$PATH_XRICK/build/emsdk" ]; then
-    cp "$PATH_XRICK/build/app/manifest.webapp" ./
-    cp "$PATH_XRICK/build/app/xrick.html" ./
-    cp "$PATH_XRICK/build/app/icon_56.png" ./
-    cp "$PATH_XRICK/build/app/icon_112.png" ./
-    cp "$PATH_XRICK/build/app/favicon.ico" ./
-fi
+cp "$PATH_XRICK/build/app/manifest.webapp" ./
+cp "$PATH_XRICK/build/app/icon_56.png" ./
+cp "$PATH_XRICK/build/app/icon_112.png" ./
+cp "$PATH_XRICK/build/app/favicon.ico" ./
 
 rm -f application.zip
 zip application.zip manifest.webapp *.data *.js *.html *.html.mem *.png *.ico
