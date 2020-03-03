@@ -1,28 +1,20 @@
 {
   "name": "XRick",
-   "version": "05.05.00",
-  "description": "XRick is a clone of Rick Dangerous, running away from rolling rocks, avoiding traps, from South America to a futuristic missile base via Egypt and the Schwarzendumpf castle.",
-  "subtitle": "XRick",
-  "launch_path": "/index.html",
-  "origin": "app://XRick",
+  "version": "05.05.00",
+  "description": "Retro platforming action, avoid traps, collect treasure. Sources: https://github.com/pelya/xrick-kaios",
+  "subtitle": "Retro platforming action",
+  "launch_path": "/xrick.html",
   "icons": {
-    "56": "icon_56.png",
-    "112": "icon_112.png"
+    "56": "/icon_56.png",
+    "112": "/icon_112.png"
   },
-  "theme_color": "#65ACFF",
+  "theme_color": "#777700",
   "developer": {
-    "name": "bigorno",
-    "url": "http://www.bigorno.net/xrick"
+    "name": "pelya",
+    "url": "https://github.com/pelya/xrick-kaios"
   },
   "type": "web",
   "fullscreen": "true",
-  "locales": {
-    "en-US": {
-      "name": "XRick",
-      "description": "XRick is a clone of Rick Dangerous, running away from rolling rocks, avoiding traps, from South America to a futuristic missile base via Egypt and the Schwarzendumpf castle.",
-      "subtitle": "Avoid traps, collect treasure"
-    }
-  },
   "categories": [ "games" ],
   "default_locale": "en-US",
   "orientation": [ "landscape" ],
