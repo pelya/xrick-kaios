@@ -21,6 +21,7 @@
 #include "system.h"
 #include "syskbd.h"
 #include "sysvid.h"
+#include "fb.h"
 #include "game.h"
 #include "debug.h"
 
@@ -49,8 +50,6 @@ processEvent()
 	case SDL_KEYDOWN:
 		key = event.key.keysym.scancode;
 		//key = event.key.keysym.sym;
-		// TODO: DEBUG< remove this
-		sys_printf("key %d %s\n", key, SDL_GetScancodeName(event.key.keysym.scancode));
 		if (key == syskbd_up || key == SDL_SCANCODE_UP) {
 			SETBIT(control_status, CONTROL_UP);
 			control_last = CONTROL_UP;
@@ -154,6 +153,13 @@ processEvent()
     SETBIT(control_status, CONTROL_EXIT);
     control_last = CONTROL_EXIT;
     break;
+#if 0
+  case SDL_WINDOWEVENT:
+    if (event.window.event == SDL_WINDOWEVENT_RESIZED || event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
+      sysvid_init(FB_WIDTH, FB_HEIGHT);
+    }
+  break;
+#endif
 #ifdef ENABLE_FOCUS
   case SDL_ACTIVEEVENT: {
     aevent = (SDL_ActiveEvent *)&event;

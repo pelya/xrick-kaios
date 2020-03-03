@@ -17,6 +17,6 @@
   "fullscreen": "true",
   "categories": [ "games" ],
   "default_locale": "en-US",
-  "orientation": [ "landscape" ],
+  "orientation": [ "landscape-primary" ],
   "precompile": [ "xrick.js" ]
 }
