@@ -50,19 +50,19 @@ processEvent()
 	case SDL_KEYDOWN:
 		key = event.key.keysym.scancode;
 		//key = event.key.keysym.sym;
-		if (key == syskbd_up || key == SDL_SCANCODE_UP) {
+		if (key == syskbd_up || key == SDL_SCANCODE_RIGHT) {
 			SETBIT(control_status, CONTROL_UP);
 			control_last = CONTROL_UP;
 		}
-		else if (key == syskbd_down || key == SDL_SCANCODE_DOWN) {
+		else if (key == syskbd_down || key == SDL_SCANCODE_LEFT) {
 			SETBIT(control_status, CONTROL_DOWN);
 			control_last = CONTROL_DOWN;
 		}
-		else if (key == syskbd_left || key == SDL_SCANCODE_LEFT) {
+		else if (key == syskbd_left || key == SDL_SCANCODE_UP) {
 			SETBIT(control_status, CONTROL_LEFT);
 			control_last = CONTROL_LEFT;
 		}
-		else if (key == syskbd_right || key == SDL_SCANCODE_RIGHT) {
+		else if (key == syskbd_right || key == SDL_SCANCODE_DOWN) {
 			SETBIT(control_status, CONTROL_RIGHT);
 			control_last = CONTROL_RIGHT;
 		}
