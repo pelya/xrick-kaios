@@ -115,19 +115,19 @@ processEvent()
 	case SDL_KEYUP:
 		key = event.key.keysym.scancode;
 		//key = event.key.keysym.sym;
-		if (key == syskbd_up || key == SDL_SCANCODE_UP) {
+		if (key == syskbd_up || key == SDL_SCANCODE_RIGHT) {
       CLRBIT(control_status, CONTROL_UP);
       control_last = CONTROL_UP;
     }
-    else if (key == syskbd_down || key == SDL_SCANCODE_DOWN) {
+    else if (key == syskbd_down || key == SDL_SCANCODE_LEFT) {
       CLRBIT(control_status, CONTROL_DOWN);
       control_last = CONTROL_DOWN;
     }
-    else if (key == syskbd_left || key == SDL_SCANCODE_LEFT) {
+    else if (key == syskbd_left || key == SDL_SCANCODE_UP) {
       CLRBIT(control_status, CONTROL_LEFT);
       control_last = CONTROL_LEFT;
     }
-    else if (key == syskbd_right || key == SDL_SCANCODE_RIGHT) {
+    else if (key == syskbd_right || key == SDL_SCANCODE_DOWN) {
       CLRBIT(control_status, CONTROL_RIGHT);
       control_last = CONTROL_RIGHT;
     }
@@ -153,13 +153,6 @@ processEvent()
     SETBIT(control_status, CONTROL_EXIT);
     control_last = CONTROL_EXIT;
     break;
-#if 0
-  case SDL_WINDOWEVENT:
-    if (event.window.event == SDL_WINDOWEVENT_RESIZED || event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
-      sysvid_init(FB_WIDTH, FB_HEIGHT);
-    }
-  break;
-#endif
 #ifdef ENABLE_FOCUS
   case SDL_ACTIVEEVENT: {
     aevent = (SDL_ActiveEvent *)&event;

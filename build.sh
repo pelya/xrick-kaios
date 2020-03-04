@@ -31,7 +31,7 @@ emcc $SRC/*.c -o xrick.html \
     -s WASM=0 \
     -D NOZLIB \
     -O2 \
-    --preload-file "$DATA" \
+    --preload-file "$DATA@/data" \
     --shell-file $PATH_XRICK/build/app/shell_minimal.html \
     || exit 1
 
