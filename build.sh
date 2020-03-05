@@ -41,6 +41,7 @@ echo Copy files...
 cp "$PATH_XRICK/build/app/manifest.webapp" ./
 cp "$PATH_XRICK/build/app/icon_56.png" ./
 cp "$PATH_XRICK/build/app/icon_112.png" ./
+cp "$PATH_XRICK/build/app/splash.png" ./
 cp "$PATH_XRICK/build/app/favicon.ico" ./
 
 rm -f application.zip

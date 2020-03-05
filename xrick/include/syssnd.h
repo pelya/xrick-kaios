@@ -49,7 +49,8 @@ extern void syssnd_free(sound_t*);
 /* MIXSAMPLES: 1024 at 22050Hz is fine on Windows, FF but not Chrome */
 /* MIXSAMPLES: 2048 seems OK on Chrome too ~10 mix per second? */
 /* MIXSAMPLES: what about 4096? */
-#define SYSSND_MIXSAMPLES 2048
+//#define SYSSND_MIXSAMPLES 2048
+#define SYSSND_MIXSAMPLES 4096 // Bigger buffer to prevent lag on KaiOS
 
 typedef struct {
 	sound_t *snd;

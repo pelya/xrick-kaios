@@ -5,12 +5,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>XRick</title>
     <style>
-      .emscripten { padding-right: 0; margin-left: auto; margin-right: auto; display: block; }
+      * { margin:0; padding:0; }
+      html, body { width:100%; height:100%; overflow:hidden; }
+      .emscripten { display: block; }
       textarea.emscripten { font-family: monospace; width: 80%; }
       div.emscripten { text-align: center; }
-      div.emscripten_border { border: 1px solid black; }
       /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
-      canvas.emscripten { border: 0px none; background-color: black; }
+      canvas.emscripten { border: 0px none; background-color: black; display: block; width:100%; height:100%; object-fit: fill; }
+      img.splash { display:block; width:100%; height:70%; object-fit: fill; }
 
       .spinner {
         height: 50px;
@@ -47,21 +49,27 @@
     </style>
   </head>
   <body>
-    <div class="emscripten" id="status">
-      Downloading...<br/>
-      <progress value="0" max="100" id="progress" hidden=1></progress>
-      <figure style="overflow:visible;" id="spinner"><div class="spinner"></div><center style="margin-top:0.5em"><strong>emscripten</strong></center></figure>
-    </div>
 
-    <div class="emscripten_border">
-      <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
+    <div class="emscripten" id="splash">
+      <hr/>
+      <img src="splash.png" class="splash"></img>
+      <hr/>
+      <br/>
+      <center><b>Source code: https://github.com/pelya/xrick-kaios</b></center>
+      <br/>
+      <hr/>
     </div>
-
+    <div class="emscripten" id="status">Downloading...</div>
+    <progress value="0" max="100" id="progress" hidden=1></progress>
+    <figure style="overflow:visible;" id="spinner"><div class="spinner"></div><center style="margin-top:0.5em"><strong>emscripten</strong></center></figure>
+    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
     <textarea class="emscripten" id="output" rows="8"></textarea>
+
     <script type='text/javascript'>
       var statusElement = document.getElementById('status');
       var progressElement = document.getElementById('progress');
       var spinnerElement = document.getElementById('spinner');
+      var outputElement = document.getElementById('output');
 
       var Module = {
         preRun: [],
@@ -115,9 +123,14 @@
             progressElement.value = null;
             progressElement.max = null;
             progressElement.hidden = true;
-            if (!text) spinnerElement.hidden = true;
+            statusElement.innerHTML = text;
+            if (!text) {
+              spinnerElement.hidden = true;
+              statusElement.hidden = true;
+              outputElement.hidden = true;
+              outputElement.style.display = "none";
+            }
           }
-          statusElement.innerHTML = text;
         },
         totalDependencies: 0,
         monitorRunDependencies: function(left) {
@@ -133,6 +146,10 @@
           if (text) Module.printErr('[post-exception status] ' + text);
         };
       };
+      // Auto-hide splash image after 3 seconds
+      setTimeout(function() {
+        document.getElementById("splash").style.display = "none";
+      }, 2000);
     </script>
     {{{ SCRIPT }}}
   </body>
