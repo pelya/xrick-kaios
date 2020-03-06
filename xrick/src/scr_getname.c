@@ -126,7 +126,7 @@ screen_getname(void)
     seq = 3;
 #endif
 
-    if ((control_status & CONTROL_FIRE) || KEY_BULLET)
+    if ((control_status & CONTROL_FIRE) || KEY_BULLET || KEY_BOMB || KEY_STICK)
       seq = 3;
     if (control_status & CONTROL_UP) {
       if (y > 0) {
@@ -169,7 +169,7 @@ screen_getname(void)
     break;
 
   case 3:  /* wait for FIRE released */
-    if (!((control_status & CONTROL_FIRE) || KEY_BULLET)) {
+    if (!((control_status & CONTROL_FIRE) || KEY_BULLET || KEY_BOMB || KEY_STICK)) {
       if (x == 5 && y == 4) {  /* end */
 	i = 0;
 	while (env_score < game_hscores[i].score)
