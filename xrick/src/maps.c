@@ -42,6 +42,7 @@
 #include "e_sbonus.h"
 #include "tiles.h"
 #include "fb.h"
+#include "sysarg.h"
 
 /*
  * global vars
@@ -213,6 +214,28 @@ map_chain(void)
       );
     return TRUE;
   }
+}
+
+#define SAVEFILE "game-progress.cfg"
+void map_saveProgress(void)
+{
+	FILE *ff = fopen(SAVEFILE, "wb");
+	if (!ff)
+		return;
+	fprintf(ff, "%d %d\n", env_map, env_submap);
+	fclose(ff);
+}
+
+void map_restoreProgress(void)
+{
+	int map, submap;
+	FILE *ff = fopen(SAVEFILE, "rb");
+	if (!ff)
+		return;
+	fscanf(ff, "%d %d", &map, &submap);
+	fclose(ff);
+	sysarg_args_map = map;
+	sysarg_args_submap = submap;
 }
 
 

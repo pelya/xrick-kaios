@@ -92,7 +92,7 @@ screen_introMain(void)
 			break;
 
 		case 3:  /* wait for key pressed or timeout */
-			if (control_status & CONTROL_FIRE)
+			if ((control_status & CONTROL_FIRE) || KEY_BULLET)
 				seq = 4;
 			else if (sys_gettime() - tm > SCREEN_TIMEOUT)
 			{
@@ -103,7 +103,7 @@ screen_introMain(void)
 			break;
 
 		case 4:  /* wait for key released */
-			if (!(control_status & CONTROL_FIRE))
+			if (!((control_status & CONTROL_FIRE) || KEY_BULLET))
 			{
 				if (seen++ == 0)
 					seq = 8;
@@ -161,7 +161,7 @@ screen_introMain(void)
 			break;
 
 		case 12:  /* wait for key pressed or timeout */
-			if (control_status & CONTROL_FIRE)
+			if ((control_status & CONTROL_FIRE) || KEY_BULLET)
 				seq = 13;
 			else if (sys_gettime() - tm > SCREEN_TIMEOUT)
 			{
@@ -171,7 +171,7 @@ screen_introMain(void)
 			break;
 
 		case 13:  /* wait for key released */
-			if (!(control_status & CONTROL_FIRE))
+			if (!((control_status & CONTROL_FIRE) || KEY_BULLET))
 			{
 				if (seen++ == 0)
 					seq = 18;

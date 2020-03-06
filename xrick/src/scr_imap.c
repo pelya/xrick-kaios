@@ -110,7 +110,7 @@ U8 screen_introMap(void)
 			break;
 
 		case 10:  /* top and bottom borders */
-			if (control_status & CONTROL_FIRE)
+			if ((control_status & CONTROL_FIRE) || KEY_BULLET)
 			{
 				seq = 20;
 			}
@@ -138,7 +138,7 @@ U8 screen_introMap(void)
 			break;
 
 		case 20:  /* wait for key release */
-			if (!(control_status & CONTROL_FIRE))
+			if (!((control_status & CONTROL_FIRE) || KEY_BULLET))
 				seq = 21;
 			else
 				sys_sleep(50);

@@ -30,7 +30,7 @@ emcc $SRC/*.c -o xrick.html \
     -s FORCE_FILESYSTEM=1 \
     -s WASM=0 \
     -D NOZLIB \
-    -O2 \
+    -O3 \
     --preload-file "$DATA@/data.zip" \
     --shell-file $PATH_XRICK/build/app/shell_minimal.html \
     || exit 1

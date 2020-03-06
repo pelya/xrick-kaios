@@ -15,6 +15,7 @@
 #define _CONTROL_H
 
 #include "system.h"
+#include <SDL_keyboard.h>
 
 #define CONTROL_UP 0x08
 #define CONTROL_DOWN 0x04
@@ -24,6 +25,10 @@
 #define CONTROL_END 0x40
 #define CONTROL_EXIT 0x20
 #define CONTROL_FIRE 0x10
+
+#define KEY_BULLET		SDL_GetKeyboardState(NULL)[SDL_SCANCODE_8]
+#define KEY_BOMB		SDL_GetKeyboardState(NULL)[SDL_SCANCODE_KP_HASH]
+#define KEY_STICK		SDL_GetKeyboardState(NULL)[SDL_SCANCODE_9]
 
 extern U8 control_status;
 extern U8 control_last;

@@ -68,7 +68,7 @@ screen_gameover(void)
 		break;
 
 	case 2:  /* wait for key pressed */
-		if (control_status & CONTROL_FIRE)
+		if ((control_status & CONTROL_FIRE) || KEY_BULLET)
 			seq = 3;
 #ifdef GFXST
 		else if (sys_gettime() - tm > SCREEN_TIMEOUT)
@@ -79,7 +79,7 @@ screen_gameover(void)
 		break;
 
 	case 3:  /* wait for key released */
-		if (!(control_status & CONTROL_FIRE))
+		if (!((control_status & CONTROL_FIRE) || KEY_BULLET))
 			seq = 4;
 		else
 			sys_sleep(50);

@@ -584,6 +584,7 @@ static void game_cycle(void)
 			{
 				/* next submap, now initialize */
 				game_state = INIT_SUBMAP;
+				map_saveProgress();
 			}
 			else
 			{
@@ -612,6 +613,7 @@ static void game_cycle(void)
 			map_frow = (U8)map_maps[env_map].row;
 			env_submap = map_maps[env_map].submap;
 			game_state = FADEOUT__MAP_INTRO;
+			map_saveProgress();
 			break;
 
 
@@ -744,6 +746,8 @@ init(void)
   env_bombs = 6;
   env_bullets = 6;
   env_score = 0;
+
+  map_restoreProgress();
 
   env_map = sysarg_args_map;
 

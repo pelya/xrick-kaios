@@ -271,27 +271,16 @@ e_rick_action2(void)
   offsy = 0x0100;  /* reset*/
 
   /* standing. firing ? */
-  if (scrawl || !(control_status & CONTROL_FIRE))
+  if (scrawl || !((control_status & CONTROL_FIRE) || KEY_BULLET || KEY_BOMB || KEY_STICK)) {
+    trigger = FALSE; /* not shooting means trigger is released */
     goto firing_not;
+  }
 
   /*
    * FIRING
    */
-	if (control_status & (CONTROL_LEFT|CONTROL_RIGHT)) {  /* stop */
-		if (control_status & CONTROL_RIGHT)
-		{
-			game_dir = RIGHT;
-			e_rick_stop_x = E_RICK_ENT.x + 0x17;
-		} else {
-			game_dir = LEFT;
-			e_rick_stop_x = E_RICK_ENT.x;
-		}
-		e_rick_stop_y = E_RICK_ENT.y + 0x000E;
-		E_RICK_STSET(E_RICK_STSTOP);
-		return;
-	}
 
-  if (control_status == (CONTROL_FIRE|CONTROL_UP)) {  /* bullet */
+  if (control_status == (CONTROL_FIRE|CONTROL_UP) || KEY_BULLET) {  /* bullet */
     E_RICK_STSET(E_RICK_STSHOOT);
     /* not an automatic gun: shoot once only */
     if (trigger)
@@ -315,7 +304,7 @@ e_rick_action2(void)
   trigger = FALSE; /* not shooting means trigger is released */
   seq = 0; /* reset */
 
-  if (control_status == (CONTROL_FIRE|CONTROL_DOWN)) {  /* bomb */
+  if (control_status == (CONTROL_FIRE|CONTROL_DOWN) || KEY_BOMB) {  /* bomb */
     /* already a bomb ticking ... that's enough */
     if (E_BOMB_ENT.n)
       return;
@@ -329,6 +318,22 @@ e_rick_action2(void)
     e_bomb_init(E_RICK_ENT.x, E_RICK_ENT.y);
     return;
   }
+
+	if (control_status & (CONTROL_LEFT|CONTROL_RIGHT) || KEY_STICK) {  /* stop */
+		if (control_status & CONTROL_RIGHT)
+			game_dir = RIGHT;
+		else if (control_status & CONTROL_LEFT)
+			game_dir = LEFT;
+
+		if (game_dir == RIGHT)
+			e_rick_stop_x = E_RICK_ENT.x + 0x17;
+		else
+			e_rick_stop_x = E_RICK_ENT.x;
+
+		e_rick_stop_y = E_RICK_ENT.y + 0x000E;
+		E_RICK_STSET(E_RICK_STSTOP);
+		return;
+	}
 
   return;
 

@@ -25,7 +25,7 @@
 #define LEFT 1
 #define RIGHT 0
 
-#define GAME_PERIOD 75
+#define GAME_PERIOD 50
 
 #define GAME_BOMBS_INIT 6
 #define GAME_BULLETS_INIT 6
@@ -51,5 +51,8 @@ extern void game_toggleCheat(U8);
 #endif
 
 /* eof */
+
+extern void map_saveProgress(void);
+extern void map_restoreProgress(void);
 
 

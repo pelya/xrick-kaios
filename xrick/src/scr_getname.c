@@ -23,6 +23,10 @@
 #include "tiles.h"
 #include "fb.h"
 
+#ifdef __ANDROID__
+#include "SDL_screenkeyboard.h"
+#endif
+
 /*
  * local vars
  */
@@ -101,10 +105,28 @@ screen_getname(void)
     name_draw();
     pointer_show(TRUE);
     seq = 2;
+    
     break;
 
   case 2:  /* wait for key pressed */
-    if (control_status & CONTROL_FIRE)
+
+#ifdef __ANDROID__
+    name[0] = 0;
+    SDL_ANDROID_SetScreenKeyboardHintMesage("Please enter your name");
+    SDL_ANDROID_GetScreenKeyboardTextInput(name, 10);
+    for (i = 0; i < strlen(name); i++) {
+        name[i] = toupper(name[i]);
+        if (name[i] == ' ')
+            name[i] = '@';
+        else if (name[i] < 'A' || name[i] > 'Z')
+            name[i] = '.';
+    }
+    x = 5;
+    y = 4;
+    seq = 3;
+#endif
+
+    if ((control_status & CONTROL_FIRE) || KEY_BULLET)
       seq = 3;
     if (control_status & CONTROL_UP) {
       if (y > 0) {
@@ -147,7 +169,7 @@ screen_getname(void)
     break;
 
   case 3:  /* wait for FIRE released */
-    if (!(control_status & CONTROL_FIRE)) {
+    if (!((control_status & CONTROL_FIRE) || KEY_BULLET)) {
       if (x == 5 && y == 4) {  /* end */
 	i = 0;
 	while (env_score < game_hscores[i].score)
