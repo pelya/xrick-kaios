@@ -751,7 +751,7 @@ init(void)
 
   env_map = sysarg_args_map;
 
-  if (sysarg_args_submap == 0) {
+  if (sysarg_args_submap == 0 || sysarg_args_submap == map_maps[game_map].submap) {
     env_submap = map_maps[env_map].submap;
     map_frow = (U8)map_maps[env_map].row;
   }
