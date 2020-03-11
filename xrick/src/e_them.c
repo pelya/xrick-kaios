@@ -572,7 +572,7 @@ e_them_t3_action2(U8 e)
   U8 i;
   U16 x, y;
 
-  while (1) {
+  /*while (1)*/ {
 
     /* calc new sprite */
     i = ent_sprseq[ent_ents[e].sprbase + ent_ents[e].sproffs];
