@@ -54,6 +54,7 @@ sys_init(int argc, char** argv)
 {
 	setConsole();
 	sys_printf("xrick\n");
+	sys_fs_init();
 
 	sysarg_init(argc, argv);
 

@@ -18,6 +18,10 @@
 #include <stdio.h>    /* printf */
 #include <stdlib.h>
 
+#ifdef EMSCRIPTEN
+#include "emscripten.h"
+#endif
+
 #include "system.h"
 
 /*
@@ -94,6 +98,45 @@ void
 sys_sleep(int s)
 {
 	SDL_Delay(s);
+}
+
+static int fs_initialized = 0;
+
+void sys_fs_init(void)
+{
+	if (!fs_initialized) {
+		fs_initialized = 1;
+#ifdef EMSCRIPTEN
+		EM_ASM({
+			// Make a directory other than '/'
+			FS.mkdir(UTF8ToString($0));
+			// Then mount with IDBFS type
+			FS.mount(IDBFS, {}, UTF8ToString($0));
+			// Then sync
+			FS.syncfs(true, function (err) {
+				if (err) alert('Error initializing filesystem');
+				//Module.print('sys_fs_init done, mount point ' + UTF8ToString($0));
+			});
+		}, FS_WRITE_MOUNT_POINT);
+#endif // EMSCRIPTEN
+	}
+}
+
+void sys_fs_sync(void)
+{
+	if (!fs_initialized) {
+		sys_printf("Please call sys_fs_init() first\n");
+		printf("Please call sys_fs_init() first\n");
+		exit(1);
+	}
+#ifdef EMSCRIPTEN
+	EM_ASM(
+		FS.syncfs(false, function (err) {
+			if (err) alert('Error writing to filesystem');
+			//Module.print('sys_fs_sync done');
+		});
+	);
+#endif // EMSCRIPTEN
 }
 
 /* eof */

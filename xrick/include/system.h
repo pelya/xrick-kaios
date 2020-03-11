@@ -71,6 +71,14 @@ extern void sys_printf(char *, ...);
 extern U32 sys_gettime(void);
 extern void sys_sleep(int);
 
+#ifdef EMSCRIPTEN
+#define FS_WRITE_MOUNT_POINT "/save"
+#else
+#define FS_WRITE_MOUNT_POINT "."
+#endif
+extern void sys_fs_init(void);
+extern void sys_fs_sync(void);
+
 #endif
 
 /* eof */

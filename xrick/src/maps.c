@@ -43,6 +43,7 @@
 #include "tiles.h"
 #include "fb.h"
 #include "sysarg.h"
+#include "system.h"
 
 /*
  * global vars
@@ -216,22 +217,24 @@ map_chain(void)
   }
 }
 
-#define SAVEFILE "game-progress.cfg"
+#define SAVEFILE FS_WRITE_MOUNT_POINT "/game-progress.cfg"
+
 void map_saveProgress(void)
 {
 	FILE *ff = fopen(SAVEFILE, "wb");
-	printf("map_saveProgress: file open %s, map %d submap %d\n", ff ? "okay" : "fail", env_map, env_submap);
+	//printf("map_saveProgress: file open %s, map %d submap %d\n", ff ? "okay" : "fail", env_map, env_submap);
 	if (!ff)
 		return;
 	fprintf(ff, "%d %d\n", env_map, env_submap);
 	fclose(ff);
+	sys_fs_sync();
 }
 
 void map_restoreProgress(void)
 {
 	int map, submap;
 	FILE *ff = fopen(SAVEFILE, "rb");
-	printf("map_restoreProgress: file open %s\n", ff ? "okay" : "fail");
+	//printf("map_restoreProgress: file open %s\n", ff ? "okay" : "fail");
 	if (!ff)
 		return;
 	fscanf(ff, "%d %d", &map, &submap);
@@ -239,10 +242,9 @@ void map_restoreProgress(void)
 	if (!sysarg_args_submap_commandline_override) {
 		sysarg_args_map = map;
 		sysarg_args_submap = submap;
-		printf("map_restoreProgress: set map %d submap %d\n", map, submap);
+		//printf("map_restoreProgress: set map %d submap %d\n", map, submap);
 	}
 }
-
 
 /*
  * Reset all marks, i.e. make them all active again.
