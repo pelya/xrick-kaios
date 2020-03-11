@@ -62,6 +62,9 @@ screen_getname(void)
   static U32 tm = 0;
   U8 i, j;
 
+  // TODO: fix it next year, maybe
+  return SCREEN_DONE;
+
   if (seq == 0) {
     /* figure out if this is a high score */
     if (env_score < game_hscores[7].score)
