@@ -11,7 +11,7 @@
       textarea.emscripten { font-family: monospace; width: 100%; }
       div.emscripten { text-align: center; }
       /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
-      canvas.emscripten { border: 0px none; background-color: black; display: block; width:100%; height:100%; object-fit: fill; }
+      canvas.emscripten { border: 0px none; background-color: black; display: block; width:100%; height:60%; object-fit: fill; }
       img.splash { display:block; width:100%; height:80%; object-fit:fill; }
       div.splash { display:flex; width:100%; height:20%; text-align:center; align-items: center; justify-content: center; background-color:#FFFFFF; }
 
@@ -125,8 +125,8 @@
             if (!text) {
               spinnerElement.hidden = true;
               statusElement.hidden = true;
-              outputElement.hidden = true;
-              outputElement.style.display = "none";
+              //outputElement.hidden = true;
+              //outputElement.style.display = "none";
             }
           }
         },

@@ -23,6 +23,9 @@ DATA="$PATH_XRICK/data"
 
 echo Compiling...
 
+HTML_TEMPLATE="$PATH_XRICK/build/app/shell_minimal.html"
+[ -n "$DEBUG" ] && HTML_TEMPLATE="$PATH_XRICK/build/app/shell_minimal_debug.html"
+
 # WebAssembly not supported on KaiOS
 emcc $SRC/*.c -o xrick.html \
     -I "$INC" \
@@ -32,7 +35,7 @@ emcc $SRC/*.c -o xrick.html \
     -D NOZLIB \
     -O3 \
     --preload-file "$DATA@/data.zip" \
-    --shell-file $PATH_XRICK/build/app/shell_minimal.html \
+    --shell-file "$HTML_TEMPLATE" \
     || exit 1
 
 echo

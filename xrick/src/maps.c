@@ -220,6 +220,7 @@ map_chain(void)
 void map_saveProgress(void)
 {
 	FILE *ff = fopen(SAVEFILE, "wb");
+	printf("map_saveProgress: file open %s, map %d submap %d\n", ff ? "okay" : "fail", env_map, env_submap);
 	if (!ff)
 		return;
 	fprintf(ff, "%d %d\n", env_map, env_submap);
@@ -230,6 +231,7 @@ void map_restoreProgress(void)
 {
 	int map, submap;
 	FILE *ff = fopen(SAVEFILE, "rb");
+	printf("map_restoreProgress: file open %s\n", ff ? "okay" : "fail");
 	if (!ff)
 		return;
 	fscanf(ff, "%d %d", &map, &submap);
@@ -237,6 +239,7 @@ void map_restoreProgress(void)
 	if (!sysarg_args_submap_commandline_override) {
 		sysarg_args_map = map;
 		sysarg_args_submap = submap;
+		printf("map_restoreProgress: set map %d submap %d\n", map, submap);
 	}
 }
 
