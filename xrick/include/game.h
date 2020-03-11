@@ -25,7 +25,7 @@
 #define LEFT 1
 #define RIGHT 0
 
-#define GAME_PERIOD 50
+#define GAME_PERIOD 70
 
 #define GAME_BOMBS_INIT 6
 #define GAME_BULLETS_INIT 6
