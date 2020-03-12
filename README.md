@@ -52,7 +52,7 @@ sudo apt-get install adb
 
 Enable debug mode in your device by entering secret code on your home screen:
 
-*#*#33284#*#*
+    *#*#33284#*#*
 
 Plug in USB cable, run install.sh
 
