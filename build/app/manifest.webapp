@@ -1,7 +1,8 @@
 {
-  "name": "XRick",
+  "name": "xrick",
+  "short_name": "XRick",
   "version": "05.05.00",
-  "description": "Retro platforming action, avoid traps, collect treasure. Sources: https://github.com/pelya/xrick-kaios",
+  "description": "Retro platforming action. Avoid traps, collect treasure. 45 levels, no ads, unlimited continues. Sources: https://github.com/pelya/xrick-kaios",
   "subtitle": "Retro platforming action",
   "launch_path": "/xrick.html",
   "icons": {
