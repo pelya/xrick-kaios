@@ -4,6 +4,14 @@
   "version": "05.05.00",
   "description": "Retro platforming action. Avoid traps, collect treasure. 45 levels, no ads, unlimited continues. Source code: https://github.com/pelya/xrick-kaios",
   "subtitle": "Retro platforming action",
+  "locales": {
+    "en-US": {
+      "name": "XRick",
+      "description": "Retro platforming action. Avoid traps, collect treasure. 45 levels, no ads, unlimited continues. Source code: https://github.com/pelya/xrick-kaios",
+      "subtitle": "Retro platforming action"
+    }
+  },
+  "default_locale": "en-US",
   "launch_path": "/xrick.html",
   "icons": {
     "56": "/icon_56.png",
