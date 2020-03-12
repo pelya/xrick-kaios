@@ -18,3 +18,20 @@ diff -r fcecab4713f7 src/video/emscripten/SDL_emscriptenevents.c
      /* 171 */   SDL_SCANCODE_UNKNOWN,
      /* 172 */   SDL_SCANCODE_UNKNOWN,
      /* 173 */   SDL_SCANCODE_MINUS, /*FX*/
+@@ -502,6 +502,16 @@
+     if (keyEvent->keyCode < SDL_arraysize(emscripten_scancode_table)) {
+         scancode = emscripten_scancode_table[keyEvent->keyCode];
+ 
++        if (keyEvent->keyCode == 0) {
++            /* KaiOS Left Soft Key and Right Soft Key, they act as OK/Next/Menu and Cancel/Back/Clear */
++            if (SDL_strncmp(keyEvent->key, "SoftLeft", 9) == 0) {
++                scancode = SDL_SCANCODE_AC_FORWARD;
++            }
++            if (SDL_strncmp(keyEvent->key, "SoftRight", 10) == 0) {
++                scancode = SDL_SCANCODE_AC_BACK;
++            }
++        }
++
+         if (scancode != SDL_SCANCODE_UNKNOWN) {
+ 
+             if (keyEvent->location == DOM_KEY_LOCATION_RIGHT) {
