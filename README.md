@@ -67,3 +67,13 @@ SDL_SCANCODE_0 .. SDL_SCANCODE_9, SDL_SCANCODE_KP_HASH, SDL_SCANCODE_KP_MULTIPLY
 SDL_SCANCODE_RETURN, SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT, SDL_SCANCODE_UP, SDL_SCANCODE_DOWN for directional pad
 
 SDL_SCANCODE_AC_FORWARD and SDL_SCANCODE_AC_BACK for LSK and RSK (left soft key and right soft key)
+
+With Emscripten, your main loop should not block anywhere - do not call sleep() or SDL_Delay() or SDL_WaitEvent()
+
+Use emscripten_set_main_loop() to call your main loop function after you initialized video and everything else
+
+Use emscripten_cancel_main_loop() and EM_ASM( window.open('','_self').close(); ); to exit the app,
+if you simply call exit(0) the app won't clear it's state and will show black screen on the next launch
+
+To write data to files that will not be deleted after you close the app, you have to mount a writable file system,
+and sync it after writing to file, check sys_fs_init() and sys_fs_sync() in the code
