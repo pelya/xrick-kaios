@@ -71,8 +71,11 @@ processEvent()
 			control_last = CONTROL_PAUSE;
 		}
 		else if (key == syskbd_end) {
-			SETBIT(control_status, CONTROL_END);
-			control_last = CONTROL_END;
+			//SETBIT(control_status, CONTROL_END);
+			//control_last = CONTROL_END;
+			// Exit the game when Back key is pressed on KaiOS
+			SETBIT(control_status, CONTROL_EXIT);
+			control_last = CONTROL_EXIT;
 		}
 		else if (key == syskbd_xtra) {
 			SETBIT(control_status, CONTROL_EXIT);
