@@ -85,9 +85,6 @@ processEvent()
 			SETBIT(control_status, CONTROL_FIRE);
 			control_last = CONTROL_FIRE;
 		}
-		else if (key == SDL_SCANCODE_3) {
-			sysvid_toggleFullscreen();
-		}
 		else if (key == SDL_SCANCODE_F2) {
 			sysvid_zoom(-1);
 		}
