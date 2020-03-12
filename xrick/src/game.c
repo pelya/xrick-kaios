@@ -261,6 +261,8 @@ static void game_loop(void)
 		game_exit();
 		sys_shutdown();
 		emscripten_cancel_main_loop();
+		// Force current window to close, this is the only way to clear app state
+		EM_ASM( window.open('','_self').close(); );
 	}
 #endif
 }
