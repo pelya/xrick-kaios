@@ -77,3 +77,9 @@ if you simply call exit(0) the app won't clear it's state and will show black sc
 
 To write data to files that will not be deleted after you close the app, you have to mount a writable file system,
 and sync it after writing to file, check sys_fs_init() and sys_fs_sync() in the code
+
+To debug your code on the device, compile the app like this:
+
+env DEBUG=1 ./build.sh
+
+then you can use printf() in the code to write debug messages to text area on screen
