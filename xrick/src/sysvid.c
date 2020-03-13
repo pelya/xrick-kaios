@@ -51,7 +51,7 @@ rect_t SCREENRECT = {0, 0, FB_WIDTH, FB_HEIGHT, NULL}; /* whole fb */
 
 static U16 paln; /* palette size */
 static SDL_Color pals[256], pald[256]; /* fixme: explain */
-static U32* pixels;
+//static U16* pixels;
 static SDL_Window *screen;
 static SDL_Renderer *renderer;
 static SDL_Texture* texture;
@@ -236,7 +236,7 @@ IFDEBUG_VIDEO(
 
 	// create pixels
 	// FIXME free pixels!
-	pixels = (U32*)malloc(fb_width * fb_height * sizeof(U32));
+	//pixels = (U16*)malloc(fb_width * fb_height * sizeof(U16));
 
 	// create window/screen
 	screen = SDL_CreateWindow("xrick", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, fb_width * zoom, fb_height * zoom, videoFlags);
@@ -259,11 +259,11 @@ IFDEBUG_VIDEO(
 	// fixme this is temp
 	// not using rects for now but we could ...
 	texture = SDL_CreateTexture(renderer,
-		SDL_PIXELFORMAT_ARGB8888,
+		SDL_PIXELFORMAT_RGB565,
 		SDL_TEXTUREACCESS_STREAMING,
 		fb_width, fb_height);
 
-	SDL_UpdateTexture(texture, NULL, pixels, fb_width * sizeof(U32));
+	//SDL_UpdateTexture(texture, NULL, pixels, fb_width * sizeof(U16));
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, texture, NULL, NULL);
 	SDL_RenderPresent(renderer);
@@ -295,13 +295,19 @@ IFDEBUG_VIDEO(
 void
 sysvid_shutdown(void)
 {
-	free(pixels);
-	pixels = NULL;
+	//free(pixels);
+	//pixels = NULL;
 
 	SDL_DestroyWindow(screen);
 }
 
 
+// TODO: GCC-specific attributes
+struct Colour16 {
+	unsigned b : 5 __attribute__((packed));  ///< Red-channel, packed 5 bits
+	unsigned g : 6 __attribute__((packed));  ///< Green-channel, packed 6 bits
+	unsigned r : 5 __attribute__((packed));  ///< Blue-channel, packed 5 bits
+};
 
 
 /*
@@ -322,9 +328,9 @@ sysvid_update(rect_t *rects)
 		return;
 
 	int pitch;
-	U32* pixelx;
+	struct Colour16 * pixelx;
 
-	SDL_LockTexture(texture, NULL, &pixelx, &pitch);
+	SDL_LockTexture(texture, NULL, (void **)&pixelx, &pitch);
 
 	n = 0;
 	rect = rects;
@@ -336,23 +342,19 @@ sysvid_update(rect_t *rects)
 		for (int y = rect->y; y < rect->y + rect->height; y++)
 		{
 			U8* srcx = src0;
-			U8* dstx = dst0;
+			struct Colour16 * dstx = (struct Colour16 *)dst0;
 
 			for (int x = rect->x; x < rect->x + rect->width; x++)
 			{
-				*dstx = pald[*srcx].b;
-				dstx++;
-				*dstx = pald[*srcx].g;
-				dstx++;
-				*dstx = pald[*srcx].r;
-				dstx++;
-				*dstx = pald[*srcx].a;
+				dstx->b = pald[*srcx].b >> 3;
+				dstx->g = pald[*srcx].g >> 2;
+				dstx->r = pald[*srcx].r >> 3;
 				dstx++;
 				srcx++;
 			}
 
 			src0 += fb_width;
-			dst0 += fb_width * 4;
+			dst0 += fb_width * 2;
 		}
 		rect = rect->next;
 		n++;
