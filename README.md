@@ -83,3 +83,11 @@ To debug your code on the device, compile the app like this:
 env DEBUG=1 ./build.sh
 
 then you can use printf() in the code to write debug messages to text area on screen
+
+KaiOS app store manually tests each app submission, limits application.zip size to 6 Mb,
+and checks that it does not crash on phones with 256 Mb RAM. Life is harsh.
+
+You can monitor your app memory usage by using 'top' command and watching RSS memory usage:
+
+adb shell top -m 5
+
