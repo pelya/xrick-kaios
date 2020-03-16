@@ -76,7 +76,7 @@ screen_introMain(void)
 #endif
 
 #ifdef GFXST
-			img_paintPic(0, 0, 0x140, 0xc8, pic_splash);
+			img_paintPic(-0x20, 0, 0x140, 0xc8, pic_splash);
 #endif
 
 			game_period = period/2;
@@ -133,7 +133,7 @@ screen_introMain(void)
 			tiles_paintListAt(screen_imainhoft, 32, 0);
 #endif
 #ifdef GFXST
-			img_paintPic(0, 0, 0x140, 0x20, pic_haf);
+			img_paintPic(-0x20, 0, 0x140, 0x20, pic_haf);
 #endif
 
 			/* hall of fame content */
@@ -145,7 +145,7 @@ screen_introMain(void)
 				sprintf((char *)s, "%06d@@@....@@@%s",
 					game_hscores[i].score, game_hscores[i].name);
 				s[26] = TILES_NULL;
-				tiles_paintListAt(s, 56, 40 + i*2*8);
+				tiles_paintListAt(s, 56 - 0x20, 40 + i*2*8);
 			}
 
 			game_period = period/2;

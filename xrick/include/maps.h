@@ -36,7 +36,7 @@ extern U8 maps_clip(U16 *, U16 *, U16 *, U16 *);
 /* position of the fb origin, expressed in map/px */
 /* MAPS_FB_X = (MAPS_WIDTH_PX - FB_WIDTH) / 2 */
 /* MAPS_FB_Y = MAPS_TOPHEIGHT_PX + (MAPS_HEIGHT_PX - FB_HEIGHT) / 2 */
-#define MAPS_FB_X (-0x20)
+#define MAPS_FB_X (0x0)
 #define MAPS_FB_Y (0x40)
 
 #define MAP_NBR_MAPS 0x05

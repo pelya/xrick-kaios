@@ -278,10 +278,10 @@ void maps_paint(void)
 	for (i = 0; i < 0x18; i++) /* 0x18 rows */
 	{
 #ifdef GFXPC
-		f = fb_at(0x20, i * 8);
+		f = fb_at(-MAPS_FB_X, i * 8);
 #endif
 #ifdef GFXST
-		f = fb_at(0x20, (i + 1) * 8);
+		f = fb_at(-MAPS_FB_X, (i + 1) * 8);
 #endif
 		for (j = 0; j < 0x20; j++) /* 0x20 tiles per row */
 			f = tiles_paint(map_map[i + 8][j], f);

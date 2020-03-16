@@ -44,7 +44,7 @@ extern void img_paintImg(img_t *);
  * paints an image of size <width>,<height> with data in <pic> at
  * position <x>,<y> (fb/px).
  */
-extern void img_paintPic(U16, U16, U16, U16, U32 *);
+extern void img_paintPic(S16, U16, U16, U16, U32 *);
 #endif
 
 #endif /* _IMG_H */

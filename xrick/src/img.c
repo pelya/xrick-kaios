@@ -25,11 +25,17 @@ img_t *IMG_SPLASH;
  * position <x>,<y> (fb/px).
  */
 #ifdef GFXST
-void img_paintPic(U16 x, U16 y, U16 width, U16 height, U32 *pic)
+void img_paintPic(S16 x, U16 y, U16 width, U16 height, U32 *pic)
 {
 	U8 *f, *fb;
 	U16 i, j, k, pp;
 	U32 v;
+	U16 skipx = 0;
+	if (x < 0)
+	{
+		skipx = -x;
+		x = 0;
+	}
 
 	fb = fb_at(x, y);
 	pp = 0;
@@ -40,6 +46,8 @@ void img_paintPic(U16 x, U16 y, U16 width, U16 height, U32 *pic)
 		for (j = 0; j < width; j += 8) /* cols */
 		{
 			v = pic[pp++];
+			if (j < skipx || j >= skipx + FB_WIDTH)
+				continue;
 			for (k = 8; k--; v >>=4)
 				f[k] = v & 0x0F;
 			f += 8;

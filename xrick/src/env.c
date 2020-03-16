@@ -42,15 +42,15 @@ U8 env_changeSubmap = FALSE;
  * FIXME counters positions in fp/px
  */
 #ifdef GFXPC
-#define DRAW_STATUS_SCORE_X 0x28
-#define DRAW_STATUS_LIVES_X 0xE8
-#define DRAW_STATUS_Y 0x08
+#define DRAW_STATUS_SCORE_X (0x28 - 0x20)
+#define DRAW_STATUS_LIVES_X (0xE8 - 0x20)
+#define DRAW_STATUS_Y (0x08 - 0x20)
 #endif
-#define DRAW_STATUS_BULLETS_X 0x68
-#define DRAW_STATUS_BOMBS_X 0xA8
+#define DRAW_STATUS_BULLETS_X (0x68 - 0x20)
+#define DRAW_STATUS_BOMBS_X (0xA8 - 0x20)
 #ifdef GFXST
-#define DRAW_STATUS_SCORE_X 0x20
-#define DRAW_STATUS_LIVES_X 0xF0
+#define DRAW_STATUS_SCORE_X 0x0
+#define DRAW_STATUS_LIVES_X (0xF0 - 0x20)
 #define DRAW_STATUS_Y 0
 #endif
 
@@ -98,6 +98,8 @@ void env_paintXtra(void)
 	U32 sv;
 	static U8 s[8] = {'M', 0x30, 0x30, TILES_CRLF, 'S', 0x30, 0x30, TILES_NULL};
 	static U8 c[8] = {'@', '@', '@', TILES_CRLF, '@', '@', '@', TILES_NULL};
+
+	return;
 
 	tiles_setBank(0);
 
