@@ -43,7 +43,7 @@ static U16 spy, spdy;         /* sprite y position and delta */
 static U16 spbase, spoffs;    /* base, offset for sprite numbers table */
 static U8 seq = 0;            /* anim sequence */
 
-static rect_t anim_rect = { 120, 16, 64, 64, NULL }; /* anim rectangle */
+static rect_t anim_rect = { 120 - 0x20, 16, 64, 64, NULL }; /* anim rectangle */
 
 /*
  * prototypes
