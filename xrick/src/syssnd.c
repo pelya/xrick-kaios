@@ -278,7 +278,6 @@ void
 syssnd_pause(U8 pause, U8 clear)
 {
   U8 c;
-
   if (!isAudioActive) return;
 
   if (clear == TRUE) {
@@ -289,9 +288,9 @@ syssnd_pause(U8 pause, U8 clear)
   }
 
   if (pause == TRUE)
-    SDL_PauseAudio(1);
+    SDL_PauseAudioDevice(device, 1);
   else
-    SDL_PauseAudio(0);
+    SDL_PauseAudioDevice(device, 0);
 }
 
 /*

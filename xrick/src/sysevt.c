@@ -153,6 +153,18 @@ processEvent()
     SETBIT(control_status, CONTROL_EXIT);
     control_last = CONTROL_EXIT;
     break;
+  case SDL_WINDOWEVENT:
+    if (event.window.event == SDL_WINDOWEVENT_SHOWN ||
+        event.window.event == SDL_WINDOWEVENT_FOCUS_GAINED)
+    {
+      syssnd_pause(FALSE, FALSE); // SDL_PauseAudioDevice(device, 0);
+    }
+    if (event.window.event == SDL_WINDOWEVENT_HIDDEN ||
+        event.window.event == SDL_WINDOWEVENT_FOCUS_LOST)
+    {
+      syssnd_pause(TRUE, FALSE); // SDL_PauseAudioDevice(device, 1);
+    }
+    break;
 #ifdef ENABLE_FOCUS
   case SDL_ACTIVEEVENT: {
     aevent = (SDL_ActiveEvent *)&event;
