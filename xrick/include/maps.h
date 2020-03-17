@@ -39,6 +39,11 @@ extern U8 maps_clip(U16 *, U16 *, U16 *, U16 *);
 #define MAPS_FB_X (0x0)
 #define MAPS_FB_Y (0x40)
 
+/* map coordinates of the screen */
+#define DRAW_XYMAP_SCRLEFT MAPS_FB_X
+#define DRAW_XYMAP_SCRTOP MAPS_FB_Y
+
+
 #define MAP_NBR_MAPS 0x05
 #define MAP_NBR_SUBMAPS 0x2F
 #define MAP_NBR_CONNECT 0x99

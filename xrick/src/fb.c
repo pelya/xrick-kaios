@@ -23,7 +23,6 @@
 
 // FIXME
 U8 fb[FB_HEIGHT][FB_WIDTH];
-rect_t *urects;
 
 
 
