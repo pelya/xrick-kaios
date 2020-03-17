@@ -44,7 +44,15 @@ To install application.zip to your device, launch command:
 
 git submodule update --init --recursive
 
-Follow instructions in build/make-kaios-install/README.md to download xulrunner with xpcshell tool, and adb tool.
+Download XULRunner from http://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/18.0.2/sdk/
+
+Extract XULRunner to ~/bin - the file ~/bin/xulrunner-sdk/bin/xpcshell should be present
+
+Download and install ADB to path ~/bin/android-sdk/platform-tools/adb
+
+If you already have Android SDK installedm you can symlink it to your ~/bin directory:
+
+ln -s /path/to/android-sdk ~/bin/android-sdk
 
 On Debian, you can install adb from system packages:
 
