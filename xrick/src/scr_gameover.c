@@ -47,6 +47,7 @@ screen_gameover(void)
 		seq = 1;
 		period = game_period; /* save period, */
 		game_period = 50;     /* and use our own */
+		sysvid_setGamma(255);
 #ifdef ENABLE_SOUND
 		sounds_setMusic("sounds/gameover.wav", 1);
 #endif
@@ -61,11 +62,11 @@ screen_gameover(void)
 #ifdef GFXPC
 		tiles_setFilter(0xaaaa);
 #endif
-		tiles_paintListAt(screen_gameovertxt, 120, 80);
+		tiles_paintListAt(screen_gameovertxt, 120 - 0x20, 80);
 
 		game_rects = &draw_SCREENRECT;
-		seq = 2;
-		break;
+		//seq = 2;
+		//break; // FALLTHROUGH
 
 	case 2:  /* wait for key pressed */
 		if ((control_status & CONTROL_FIRE) || KEY_BULLET)
@@ -74,15 +75,15 @@ screen_gameover(void)
 		else if (sys_gettime() - tm > SCREEN_TIMEOUT)
 			seq = 4;
 #endif
-		else
-			sys_sleep(50);
+		//else
+		//	sys_sleep(50);
 		break;
 
 	case 3:  /* wait for key released */
 		if (!((control_status & CONTROL_FIRE) || KEY_BULLET))
 			seq = 4;
-		else
-			sys_sleep(50);
+		//else
+		//	sys_sleep(50);
 		break;
 	}
 
