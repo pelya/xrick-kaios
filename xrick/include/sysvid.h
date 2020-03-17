@@ -16,10 +16,11 @@
 
 #include "rects.h"
 #include "img.h"
+#include "fb.h"
 
 #define SYSVID_ZOOM 2
-#define SYSVID_WIDTH 320
-#define SYSVID_HEIGHT 200
+#define SYSVID_WIDTH FB_WIDTH
+#define SYSVID_HEIGHT FB_HEIGHT
 
 extern void sysvid_init(U16 width, U16 height);
 extern void sysvid_shutdown(void);
@@ -31,7 +32,6 @@ extern void sysvid_setDisplayPalette(void);
 extern void sysvid_setPaletteFromImg(img_t* img);
 extern void sysvid_setPaletteFromRGB(U8* r, U8* g, U8* b, U16 n);
 
-extern U8 *sysvid_fb;  /* frame buffer */
 extern void sysvid_setGamma(U8 g);
 //extern U8 sysvid_fadeIn(void);
 //extern U8 sysvid_fadeOut(void);

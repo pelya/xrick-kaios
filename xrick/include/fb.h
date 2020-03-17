@@ -18,7 +18,7 @@
 #include "img.h"
 
 /* framebuffer width and height */
-#define FB_WIDTH 320
+#define FB_WIDTH 256
 #define FB_HEIGHT 200
 
 // FIXME?
