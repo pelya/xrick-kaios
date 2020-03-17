@@ -151,5 +151,27 @@
       }, 4000);
     </script>
     {{{ SCRIPT }}}
+    <script type='text/javascript' src="ads-sdk.v3.min.js" defer></script>
+    <script type='text/javascript' defer>
+      setTimeout(function() {
+        // KaiAds only used for collecting usage statistics, it will not show an actual ad
+        if (typeof getKaiAd === "function") {
+          getKaiAd({
+            publisher: '9c9550ad-6e58-4e5a-be78-c209bc42736f',
+            app: 'xrick',
+            slot: 'xrick',
+            timeout: 1000 * 60 * 60 * 24, // 1 day timeout for loading the ad
+            onerror: err => {
+              console.error('KaiAds error:', err);
+            },
+            onready: ad => {
+              console.log('KaiAds ad would be shown here');
+              // calling 'display' will display the ad, but we won't call it
+              // ad.call('display');
+            }
+          });
+        }
+      }, 10000);
+    </script>
   </body>
 </html>

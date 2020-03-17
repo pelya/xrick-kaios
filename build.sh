@@ -53,6 +53,7 @@ cp "$PATH_XRICK/build/app/icon_bg_112.png" ./
 cp "$PATH_XRICK/build/app/img_xrick.jpg" ./
 cp "$PATH_XRICK/build/app/splash.png" ./
 cp "$PATH_XRICK/build/app/favicon.ico" ./
+cp "$PATH_XRICK/build/kaiads/kaiads.v3.min.js" ./
 
 rm -f application.zip
 zip application.zip * --exclude application.zip
