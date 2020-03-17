@@ -68,9 +68,9 @@ sys_printf(char *msg, ...)
 
 	/* prepare message */
 	va_start(argptr, msg);
-	vsprintf(s, msg, argptr);
+	vsnprintf(s, sizeof(s), msg, argptr);
 	va_end(argptr);
-	printf(s);
+	printf("%s", s);
 #endif
 }
 

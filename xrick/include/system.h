@@ -66,8 +66,8 @@ typedef signed int S32;           /* 32 bits signed   */
 
 extern void sys_init(int, char **);
 extern void sys_shutdown(void);
-extern void sys_panic(char *, ...);
-extern void sys_printf(char *, ...);
+extern void sys_panic(char *, ...) __attribute__((format(printf, 1, 2)));
+extern void sys_printf(char *, ...) __attribute__((format(printf, 1, 2)));
 extern U32 sys_gettime(void);
 extern void sys_sleep(int);
 
