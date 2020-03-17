@@ -84,10 +84,22 @@ env DEBUG=1 ./build.sh
 
 then you can use printf() in the code to write debug messages to text area on screen
 
-KaiOS app store manually tests each app submission, limits application.zip size to 6 Mb,
-and checks that it does not crash on phones with 256 Mb RAM. Life is harsh.
-
+KaiOS Store manually tests each app submission, and checks that it does not crash on phones with 256 Mb RAM.
 You can monitor your app memory usage by using 'top' command and watching RSS memory usage:
 
-adb shell top -m 5
+adb shell top -m 5 -s rss
 
+QA testing may take from 2 days up to 3 weeks, if there are many other apps to test.
+
+Maximum size of application.zip for uploading to KaiOS Store is 6 Mb.
+
+The store does accept games in landscape mode. Device screen is 320x240 pixels, and SDL will stretch smaller video output to fullscreen.
+
+KaiOS Store does provide app updates, however it would require user interaction.
+
+The KaiAds is deeply integrated to the KaiStore, the app analytics is part of the KaiAds SDK
+and developers need to go to KaiAds page to access the app install and usage statistics.
+
+If apps aren't monetized, Store team would mark it a low priority and the app will be on the bottom of the KaiStore category.
+
+In XRick, KaiAds are used only to monitor app install numbers, the ad is never shown during the game.
