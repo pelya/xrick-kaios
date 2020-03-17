@@ -36,8 +36,8 @@ or FITNESS FOR A PARTICULAR PURPOSE.
 
 **
 
-KaiOS build scripts and templates (build.sh, install.sh,
-and stuff inside "build" directory) are licensed under ZLIB license.
+KaiOS build scripts and templates - build.sh, install.sh,
+and files inside "build/app" directory - are licensed under ZLIB license.
 
 KaiAds script in "build/kaiads" is licensed under KaiAds proprietary license.
 
