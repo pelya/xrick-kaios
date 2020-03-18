@@ -26,7 +26,13 @@
 
 #include "tiles.h"
 
-#define IMAIN_PERIOD 50;
+#ifdef EMSCRIPTEN
+#include "emscripten.h"
+#endif
+
+#define IMAIN_PERIOD 50
+
+static void konami_code(void);
 
 /*
  * Main introduction
@@ -42,6 +48,8 @@ screen_introMain(void)
 	static U8 period = 0;
 	static U32 tm = 0;
 	U8 i, s[32];
+
+	konami_code();
 
 	if (seq == 0)
 	{
@@ -216,6 +224,71 @@ screen_introMain(void)
 	}
 	else
 		return SCREEN_RUNNING;
+}
+
+struct controls_t {
+	unsigned control_status:5;
+	unsigned key_bullet:1;
+	unsigned key_bomb:1;
+	unsigned key_stick:1;
+};
+
+static int controls_equal(struct controls_t * c1, struct controls_t * c2)
+{
+	return
+		c1->control_status == c2->control_status &&
+		c1->key_bullet == c2->key_bullet &&
+		c1->key_bomb == c2->key_bomb &&
+		c1->key_stick == c2->key_stick;
+}
+
+static struct controls_t konami_seq[] = {
+	{CONTROL_UP, 0, 0, 0},
+	{0, 0, 0, 0},
+	{CONTROL_UP, 0, 0, 0},
+	{0, 0, 0, 0},
+	{CONTROL_DOWN, 0, 0, 0},
+	{0, 0, 0, 0},
+	{CONTROL_DOWN, 0, 0, 0},
+	{0, 0, 0, 0},
+	{CONTROL_LEFT, 0, 0, 0},
+	{0, 0, 0, 0},
+	{CONTROL_RIGHT, 0, 0, 0},
+	{0, 0, 0, 0},
+	{CONTROL_LEFT, 0, 0, 0},
+	{0, 0, 0, 0},
+	{CONTROL_RIGHT, 0, 0, 0},
+	{0, 0, 0, 0},
+	{0, 0, 1, 0},
+	{0, 0, 0, 0},
+	{0, 1, 0, 0},
+};
+
+static int konami_counter = 0;
+
+void konami_code(void)
+{
+	struct controls_t controls = {control_status, KEY_BULLET, KEY_BOMB, KEY_STICK};
+
+	if (konami_counter > 0 && controls_equal(&konami_seq[konami_counter - 1], &controls))
+		return; // Previous key still pressed
+
+	if (controls_equal(&konami_seq[konami_counter], &controls))
+		konami_counter++;
+	else
+		konami_counter = 0;
+
+	printf("konami_counter %d\n", konami_counter);
+
+	if (konami_counter >= sizeof(konami_seq) / sizeof(konami_seq[0]))
+	{
+		// What do we give to a user entering cheat code in a game with no ads and unlimited continues?
+		// A full-screen advertisement!
+		//printf("\n\n=== Konami code! ===\n\n\n");
+#ifdef EMSCRIPTEN
+		EM_ASM( if (lastKaiAd !== false) lastKaiAd.call('display'); );
+#endif
+	}
 }
 
 /* eof */

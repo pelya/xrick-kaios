@@ -154,6 +154,7 @@
     {{{ SCRIPT }}}
     <script src="kaiads.v3.min.js"></script>
     <script type='text/javascript'>
+      var lastKaiAd = false;
       setTimeout(function() {
         // KaiAds only used for collecting usage statistics, it will not show an actual ad
         if (typeof getKaiAd === 'function') {
@@ -169,6 +170,7 @@
               //Module.print('KaiAds ad would be shown here');
               // calling 'display' will display the ad, but we won't call it
               // ad.call('display');
+              lastKaiAd = ad;
             }
           });
         }
