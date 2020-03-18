@@ -156,9 +156,11 @@ processEvent()
   case SDL_WINDOWEVENT:
     if (event.window.event == SDL_WINDOWEVENT_FOCUS_GAINED)
     {
+      // Do not restart music on SDL_WINDOWEVENT_SHOWN, or it will play in lockscreen
       syssnd_pause(FALSE, FALSE); // SDL_PauseAudioDevice(device, 0);
     }
-    if (event.window.event == SDL_WINDOWEVENT_FOCUS_LOST)
+    if (event.window.event == SDL_WINDOWEVENT_FOCUS_LOST ||
+        event.window.event == SDL_WINDOWEVENT_HIDDEN)
     {
       syssnd_pause(TRUE, FALSE); // SDL_PauseAudioDevice(device, 1);
     }
