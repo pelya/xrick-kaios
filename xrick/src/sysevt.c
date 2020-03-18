@@ -154,13 +154,11 @@ processEvent()
     control_last = CONTROL_EXIT;
     break;
   case SDL_WINDOWEVENT:
-    if (event.window.event == SDL_WINDOWEVENT_SHOWN ||
-        event.window.event == SDL_WINDOWEVENT_FOCUS_GAINED)
+    if (event.window.event == SDL_WINDOWEVENT_FOCUS_GAINED)
     {
       syssnd_pause(FALSE, FALSE); // SDL_PauseAudioDevice(device, 0);
     }
-    if (event.window.event == SDL_WINDOWEVENT_HIDDEN ||
-        event.window.event == SDL_WINDOWEVENT_FOCUS_LOST)
+    if (event.window.event == SDL_WINDOWEVENT_FOCUS_LOST)
     {
       syssnd_pause(TRUE, FALSE); // SDL_PauseAudioDevice(device, 1);
     }
