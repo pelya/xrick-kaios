@@ -34,6 +34,8 @@
 #define CLRBIT(x,b) x &= ~(b)
 
 static SDL_Event event;
+static int window_visible = 0;
+static int window_input_focus = 0;
 
 /*
  * Process an event
@@ -155,15 +157,19 @@ processEvent()
     break;
   case SDL_WINDOWEVENT:
     if (event.window.event == SDL_WINDOWEVENT_FOCUS_GAINED)
-    {
-      // Do not restart music on SDL_WINDOWEVENT_SHOWN, or it will play in lockscreen
+      window_input_focus = 1;
+    if (event.window.event == SDL_WINDOWEVENT_FOCUS_LOST)
+      window_input_focus = 0;
+
+    if (event.window.event == SDL_WINDOWEVENT_SHOWN)
+      window_visible = 1;
+    if (event.window.event == SDL_WINDOWEVENT_HIDDEN)
+      window_visible = 0;
+
+    if (window_input_focus && window_visible)
       syssnd_pause(FALSE, FALSE); // SDL_PauseAudioDevice(device, 0);
-    }
-    if (event.window.event == SDL_WINDOWEVENT_FOCUS_LOST ||
-        event.window.event == SDL_WINDOWEVENT_HIDDEN)
-    {
+    else
       syssnd_pause(TRUE, FALSE); // SDL_PauseAudioDevice(device, 1);
-    }
     break;
 #ifdef ENABLE_FOCUS
   case SDL_ACTIVEEVENT: {
