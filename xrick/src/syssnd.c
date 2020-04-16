@@ -210,6 +210,12 @@ syssnd_toggleMute(void)
   SDL_mutexV(sndlock);
 }
 
+U8
+syssnd_getMute(void)
+{
+	return sndMute;
+}
+
 void
 syssnd_vol(S8 d)
 {

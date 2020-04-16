@@ -26,7 +26,41 @@
 
 #include "tiles.h"
 
+#ifdef EMSCRIPTEN
+#include "emscripten.h"
+#endif
+
 #define IMAIN_PERIOD 50;
+
+#define FS_OPTIONS FS_WRITE_MOUNT_POINT "/options.cfg"
+
+static void
+load_options(void)
+{
+	FILE *ff = fopen(FS_OPTIONS, "rb");
+	if (!ff)
+		return;
+	char buf[16] = "0";
+	fread(buf, 1, 1, ff);
+	fclose(ff);
+	if (buf[0] == '1')
+		syssnd_toggleMute();
+}
+
+static void
+save_options(void)
+{
+	FILE *ff = fopen(FS_OPTIONS, "wb");
+	if (ff)
+	{
+		fprintf(ff, "%d", syssnd_getMute());
+		fclose(ff);
+		sys_fs_sync();
+	}
+}
+
+static U8
+screen_options(void);
 
 /*
  * Main introduction
@@ -41,10 +75,12 @@ screen_introMain(void)
 	static U8 first = TRUE;
 	static U8 period = 0;
 	static U32 tm = 0;
+	static U8 options = FALSE;
 	U8 i, s[32];
 
 	if (seq == 0)
 	{
+		load_options();
 		tiles_setBank(0);
 		if (first == TRUE)
 			seq = 1;
@@ -56,6 +92,16 @@ screen_introMain(void)
 #ifdef ENABLE_SOUND
 		sounds_setMusic("sounds/tune5.wav", -1);
 #endif
+	}
+
+	if (options)
+	{
+		if (screen_options() == SCREEN_DONE)
+		{
+			options = FALSE;
+			seq = 1;
+		}
+		return SCREEN_RUNNING;
 	}
 
 	switch (seq)
@@ -79,6 +125,11 @@ screen_introMain(void)
 			img_paintPic(-0x20, 0, 0x140, 0xc8, pic_splash);
 #endif
 
+			tiles_paintListAt(".........@@" TILES_NULLCHAR, 176 - 8, 170);
+			tiles_paintListAt(".........@@" TILES_NULLCHAR, 176 - 8, 184);
+			tiles_paintListAt("..........." TILES_NULLCHAR, 176 - 8, 177);
+			tiles_paintListAt( "OPTIONS"    TILES_NULLCHAR, 183 - 8, 180);
+
 			game_period = period/2;
 			seq = 2;
 			break;
@@ -99,6 +150,10 @@ screen_introMain(void)
 				seen++;
 				game_period = period/2;
 				seq = 8;
+			}
+			if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_AC_FORWARD] || SDL_GetKeyboardState(NULL)[SDL_SCANCODE_F12])
+			{
+				options = TRUE;
 			}
 			break;
 
@@ -148,6 +203,11 @@ screen_introMain(void)
 				tiles_paintListAt(s, 56 - 0x20, 40 + i*2*8);
 			}
 
+			tiles_paintListAt(".........@@" TILES_NULLCHAR, 176 - 8, 170);
+			tiles_paintListAt(".........@@" TILES_NULLCHAR, 176 - 8, 184);
+			tiles_paintListAt("..........." TILES_NULLCHAR, 176 - 8, 177);
+			tiles_paintListAt( "OPTIONS"    TILES_NULLCHAR, 183 - 8, 180);
+
 			game_period = period/2;
 			seq = 11;
 			break;
@@ -167,6 +227,10 @@ screen_introMain(void)
 			{
 				seen++;
 				seq = 18;
+			}
+			if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_AC_FORWARD] || SDL_GetKeyboardState(NULL)[SDL_SCANCODE_F12])
+			{
+				options = TRUE;
 			}
 			break;
 
@@ -216,6 +280,90 @@ screen_introMain(void)
 	}
 	else
 		return SCREEN_RUNNING;
+}
+
+U8
+screen_options(void)
+{
+	static S8 pos = 0;
+	enum { POS_LAST = 1 };
+	static U8 pressed = 0;
+
+	fb_clear();
+
+	tiles_paintListAt("........."   TILES_NULLCHAR, 76 + 8, 10);
+	tiles_paintListAt("........."   TILES_NULLCHAR, 76 + 8, 24);
+	tiles_paintListAt("........."   TILES_NULLCHAR, 76 + 8, 17);
+	tiles_paintListAt( "OPTIONS"    TILES_NULLCHAR, 83 + 8, 20);
+
+	tiles_paintListAt("..........."  TILES_NULLCHAR, 76, 70 + pos * 16);
+	tiles_paintListAt("..........."  TILES_NULLCHAR, 76, 84 + pos * 16);
+	tiles_paintListAt("..........."  TILES_NULLCHAR, 76, 77 + pos * 16);
+
+	if (syssnd_getMute())
+		tiles_paintListAt( "SOUND@OFF"   TILES_NULLCHAR, 83, 80);
+	else
+		tiles_paintListAt( "SOUND@@ON"   TILES_NULLCHAR, 83, 80);
+
+	tiles_paintListAt( "DONE@@@@@"   TILES_NULLCHAR, 83, 80 + 16);
+
+	if (control_status & CONTROL_EXIT)
+	{
+		pos = 0;
+		save_options();
+		return SCREEN_DONE;
+	}
+
+	if (control_status & CONTROL_UP)
+	{
+		pressed = CONTROL_UP;
+		return SCREEN_RUNNING;
+	}
+	else if (pressed == CONTROL_UP)
+	{
+		pressed = 0;
+		pos --;
+		if (pos < 0)
+			pos = POS_LAST;
+	}
+
+	if (control_status & CONTROL_DOWN)
+	{
+		pressed = CONTROL_DOWN;
+		return SCREEN_RUNNING;
+	}
+	else if (pressed == CONTROL_DOWN)
+	{
+		pressed = 0;
+		pos ++;
+		if (pos > POS_LAST)
+			pos = 0;
+	}
+
+	if ((control_status & CONTROL_FIRE) || KEY_BULLET)
+	{
+		pressed = CONTROL_FIRE;
+		return SCREEN_RUNNING;
+	}
+	else if (pressed == CONTROL_FIRE)
+	{
+		pressed = 0;
+		if (pos == 0)
+		{
+			syssnd_toggleMute();
+		}
+		if (pos == 1)
+		{
+			pos = 0;
+			save_options();
+#ifdef EMSCRIPTEN
+			EM_ASM( if (lastKaiAd !== false) lastKaiAd.call('display'); );
+#endif
+			return SCREEN_DONE;
+		}
+	}
+
+	return SCREEN_RUNNING;
 }
 
 /* eof */

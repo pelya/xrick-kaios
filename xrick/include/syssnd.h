@@ -31,6 +31,7 @@ extern void syssnd_init(void);
 extern void syssnd_shutdown(void);
 extern void syssnd_vol(S8);
 extern void syssnd_toggleMute(void);
+extern U8 syssnd_getMute(void);
 extern S8 syssnd_play(sound_t*, S8);
 extern void syssnd_pause(U8, U8);
 extern void syssnd_stopchan(S8);
