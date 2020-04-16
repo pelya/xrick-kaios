@@ -64,6 +64,7 @@
     <textarea class="emscripten" id="output" rows="8"></textarea>
 
     <script type='text/javascript'>
+      var sys_fs_init_is_done = 0; // Used from C code
       var statusElement = document.getElementById('status');
       var progressElement = document.getElementById('progress');
       var spinnerElement = document.getElementById('spinner');

@@ -77,6 +77,7 @@ extern void sys_sleep(int);
 #define FS_WRITE_MOUNT_POINT "."
 #endif
 extern void sys_fs_init(void);
+extern int sys_fs_init_is_done(void);
 extern void sys_fs_sync(void);
 
 #endif

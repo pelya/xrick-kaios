@@ -84,7 +84,11 @@ Use emscripten_cancel_main_loop() and EM_ASM( window.open('','_self').close(); )
 if you simply call exit(0) the app won't clear it's state and will show black screen on the next launch
 
 To write data to files that will not be deleted after you close the app, you have to mount a writable file system,
-and sync it after writing to file, check sys_fs_init() and sys_fs_sync() in the code
+and sync it after writing to file.
+Files should be saved to directory defined in FS_WRITE_MOUNT_POINT.
+First call sys_fs_init() from your init code.
+Then check for sys_fs_init_is_done() to return 1 in a loop, before reading or writing any files inside FS_WRITE_MOUNT_POINT.
+Call sys_fs_sync() after writing any files, to push data to filesystem database.
 
 To debug your code on the device, compile the app like this:
 

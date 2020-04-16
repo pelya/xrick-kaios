@@ -34,16 +34,20 @@
 
 #define FS_OPTIONS FS_WRITE_MOUNT_POINT "/options.cfg"
 
-static void
+void
 load_options(void)
 {
 	FILE *ff = fopen(FS_OPTIONS, "rb");
 	if (!ff)
+	{
 		return;
+	}
 	char buf[16] = "0";
 	fread(buf, 1, 1, ff);
 	fclose(ff);
-	if (buf[0] == '1')
+	if (buf[0] == '0' && syssnd_getMute())
+		syssnd_toggleMute();
+	if (buf[0] == '1' && !syssnd_getMute())
 		syssnd_toggleMute();
 }
 
@@ -80,7 +84,6 @@ screen_introMain(void)
 
 	if (seq == 0)
 	{
-		load_options();
 		tiles_setBank(0);
 		if (first == TRUE)
 			seq = 1;

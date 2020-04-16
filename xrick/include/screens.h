@@ -44,6 +44,8 @@ extern U8 screen_introMap(void);  /* map intro */
 extern U8 screen_gameover(void);  /* gameover */
 extern U8 screen_getname(void);  /* enter you name */
 extern void screen_pause(U8);  /* pause indicator */
+extern void load_options(void); /* load game options */
+
 
 #endif
 

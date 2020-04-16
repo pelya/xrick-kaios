@@ -113,13 +113,30 @@ void sys_fs_init(void)
 			// Then mount with IDBFS type
 			FS.mount(IDBFS, {}, UTF8ToString($0));
 			// Then sync
+			// var sys_fs_init_is_done = 0; // Defined in HTML file
 			FS.syncfs(true, function (err) {
 				if (err) alert('Error initializing filesystem');
 				//Module.print('sys_fs_init done, mount point ' + UTF8ToString($0));
+				sys_fs_init_is_done = 1;
 			});
 		}, FS_WRITE_MOUNT_POINT);
 #endif // EMSCRIPTEN
 	}
+}
+
+int sys_fs_init_is_done(void)
+{
+	if (!fs_initialized) {
+		sys_printf("Please call sys_fs_init() first\n");
+		printf("Please call sys_fs_init() first\n");
+		exit(1);
+	}
+
+	int status = 1;
+#ifdef EMSCRIPTEN
+	status = EM_ASM_INT({ return sys_fs_init_is_done; });
+#endif // EMSCRIPTEN
+	return status;
 }
 
 void sys_fs_sync(void)
