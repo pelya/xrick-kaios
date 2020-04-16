@@ -18,6 +18,7 @@
 #include "screens.h"
 #include "sysvid.h"
 #include "sounds.h"
+#include "env.h"
 
 #include "draw.h"
 #include "pics.h"
@@ -289,26 +290,30 @@ U8
 screen_options(void)
 {
 	static S8 pos = 0;
-	enum { POS_LAST = 1 };
+	enum { POS_LAST = 2 };
 	static U8 pressed = 0;
 
 	fb_clear();
 
-	tiles_paintListAt("........."   TILES_NULLCHAR, 76 + 8, 10);
-	tiles_paintListAt("........."   TILES_NULLCHAR, 76 + 8, 24);
-	tiles_paintListAt("........."   TILES_NULLCHAR, 76 + 8, 17);
-	tiles_paintListAt( "OPTIONS"    TILES_NULLCHAR, 83 + 8, 20);
+	tiles_paintListAt("........."   TILES_NULLCHAR, 76 + 28, 10);
+	tiles_paintListAt("........."   TILES_NULLCHAR, 76 + 28, 24);
+	tiles_paintListAt("........."   TILES_NULLCHAR, 76 + 28, 17);
+	tiles_paintListAt( "OPTIONS"    TILES_NULLCHAR, 83 + 28, 20);
 
-	tiles_paintListAt("..........."  TILES_NULLCHAR, 76, 70 + pos * 16);
-	tiles_paintListAt("..........."  TILES_NULLCHAR, 76, 84 + pos * 16);
-	tiles_paintListAt("..........."  TILES_NULLCHAR, 76, 77 + pos * 16);
+	tiles_paintListAt("................"  TILES_NULLCHAR, 76, 70 + pos * 20);
+	tiles_paintListAt("................"  TILES_NULLCHAR, 76, 84 + pos * 20);
+	tiles_paintListAt("................"  TILES_NULLCHAR, 76, 77 + pos * 20);
 
 	if (syssnd_getMute())
-		tiles_paintListAt( "SOUND@OFF"   TILES_NULLCHAR, 83, 80);
+		tiles_paintListAt(
+					   "SOUND@@@@@@OFF"   TILES_NULLCHAR, 83, 80);
 	else
-		tiles_paintListAt( "SOUND@@ON"   TILES_NULLCHAR, 83, 80);
+		tiles_paintListAt(
+					   "SOUND@@@@@@@ON"   TILES_NULLCHAR, 83, 80 + 20 * 0);
 
-	tiles_paintListAt( "DONE@@@@@"   TILES_NULLCHAR, 83, 80 + 16);
+	tiles_paintListAt( "RESET@PROGRESS"   TILES_NULLCHAR, 83, 80 + 20 * 1);
+
+	tiles_paintListAt( "DONE@@@@@@@@@@"   TILES_NULLCHAR, 83, 80 + 20 * 2);
 
 	if (control_status & CONTROL_EXIT)
 	{
@@ -356,6 +361,12 @@ screen_options(void)
 			syssnd_toggleMute();
 		}
 		if (pos == 1)
+		{
+			env_map = 0;
+			env_submap = 0;
+			map_saveProgress();
+		}
+		if (pos == 1 || pos == 2)
 		{
 			pos = 0;
 			save_options();
