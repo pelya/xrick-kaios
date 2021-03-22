@@ -70,11 +70,17 @@ KaiOS devices generate following SDL2 keycodes:
 
 SDL_SCANCODE_BACKSPACE for 'Back' key, not present on all phones
 
+SDL_SCANCODE_KP_ENTER for 'Call' key
+
+SDL_SCANCODE_ESCAPE for 'End Call' key
+
 SDL_SCANCODE_0 .. SDL_SCANCODE_9, SDL_SCANCODE_KP_HASH, SDL_SCANCODE_KP_MULTIPLY for numeric keyboard
 
 SDL_SCANCODE_RETURN, SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT, SDL_SCANCODE_UP, SDL_SCANCODE_DOWN for directional pad
 
 SDL_SCANCODE_AC_FORWARD and SDL_SCANCODE_AC_BACK for LSK and RSK (left soft key and right soft key)
+
+SDL_SCANCODE_VOLUMEUP and SDL_SCANCODE_VOLUMEDOWN for volume keys
 
 With Emscripten, your main loop should not block anywhere - do not call sleep() or SDL_Delay() or SDL_WaitEvent()
 

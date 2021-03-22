@@ -1,11 +1,19 @@
-diff -r fcecab4713f7 src/video/emscripten/SDL_emscriptenevents.c
---- a/src/video/emscripten/SDL_emscriptenevents.c	Tue Mar 03 09:22:43 2020 -0800
-+++ b/src/video/emscripten/SDL_emscriptenevents.c	Tue Mar 03 22:34:21 2020 +0200
+--- SDL_emscriptenevents.c	2021-03-23 00:30:38.756427025 +0200
++++ SDL_emscriptenevents.c	2021-03-23 00:30:52.380494951 +0200
+@@ -138,7 +138,7 @@
+     /*  92 */   SDL_SCANCODE_UNKNOWN,
+     /*  93 */   SDL_SCANCODE_APPLICATION,
+     /*  94 */   SDL_SCANCODE_UNKNOWN,
+-    /*  95 */   SDL_SCANCODE_UNKNOWN,
++    /*  95 */   SDL_SCANCODE_ESCAPE,
+     /*  96 */   SDL_SCANCODE_KP_0,
+     /*  97 */   SDL_SCANCODE_KP_1,
+     /*  98 */   SDL_SCANCODE_KP_2,
 @@ -206,14 +206,14 @@
-     /* 160 */   SDL_SCANCODE_UNKNOWN,
+     /* 160 */   SDL_SCANCODE_GRAVE,
      /* 161 */   SDL_SCANCODE_UNKNOWN,
      /* 162 */   SDL_SCANCODE_UNKNOWN,
--    /* 163 */   SDL_SCANCODE_UNKNOWN,
+-    /* 163 */   SDL_SCANCODE_BACKSLASH,
 +    /* 163 */   SDL_SCANCODE_KP_HASH, /*KaiOS phone keypad*/
      /* 164 */   SDL_SCANCODE_UNKNOWN,
      /* 165 */   SDL_SCANCODE_UNKNOWN,
@@ -15,10 +23,10 @@ diff -r fcecab4713f7 src/video/emscripten/SDL_emscriptenevents.c
      /* 169 */   SDL_SCANCODE_UNKNOWN,
 -    /* 170 */   SDL_SCANCODE_UNKNOWN,
 +    /* 170 */   SDL_SCANCODE_KP_MULTIPLY, /*KaiOS phone keypad*/
-     /* 171 */   SDL_SCANCODE_UNKNOWN,
+     /* 171 */   SDL_SCANCODE_RIGHTBRACKET,
      /* 172 */   SDL_SCANCODE_UNKNOWN,
      /* 173 */   SDL_SCANCODE_MINUS, /*FX*/
-@@ -502,6 +502,16 @@
+@@ -485,6 +485,22 @@
      if (keyEvent->keyCode < SDL_arraysize(emscripten_scancode_table)) {
          scancode = emscripten_scancode_table[keyEvent->keyCode];
  
@@ -29,6 +37,12 @@ diff -r fcecab4713f7 src/video/emscripten/SDL_emscriptenevents.c
 +            }
 +            if (SDL_strncmp(keyEvent->key, "SoftRight", 10) == 0) {
 +                scancode = SDL_SCANCODE_AC_BACK;
++            }
++            if (SDL_strncmp(keyEvent->key, "Call", 4) == 0) {
++                scancode = SDL_SCANCODE_KP_ENTER;
++            }
++            if (SDL_strncmp(keyEvent->key, "EndCall", 7) == 0) {
++                scancode = SDL_SCANCODE_ESCAPE;
 +            }
 +        }
 +
