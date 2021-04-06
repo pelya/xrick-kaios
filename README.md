@@ -93,8 +93,9 @@ To write data to files that will not be deleted after you close the app, you hav
 and sync it after writing to file.
 Files should be saved to directory defined in FS_WRITE_MOUNT_POINT.
 First call sys_fs_init() from your init code.
-Then check for sys_fs_init_is_done() to return 1 in a loop, before reading or writing any files inside FS_WRITE_MOUNT_POINT.
+Then check for sys_fs_init_get_done() to return 1 in a loop, before reading or writing any files inside FS_WRITE_MOUNT_POINT.
 Call sys_fs_sync() after writing any files, to push data to filesystem database.
+Then check for sys_fs_sync_get_done() to return 1 when FS sync is finished.
 
 To debug your code on the device, compile the app like this:
 

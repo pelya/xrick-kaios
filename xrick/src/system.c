@@ -104,7 +104,8 @@ static int fs_initialized = 0;
 
 void sys_fs_init(void)
 {
-	if (!fs_initialized) {
+	if (!fs_initialized)
+	{
 		fs_initialized = 1;
 #ifdef EMSCRIPTEN
 		EM_ASM({
@@ -118,42 +119,60 @@ void sys_fs_init(void)
 				if (err) alert('Error initializing filesystem');
 				//Module.print('sys_fs_init done, mount point ' + UTF8ToString($0));
 				sys_fs_init_is_done = 1;
+				sys_fs_sync_is_done = 1;
 			});
 		}, FS_WRITE_MOUNT_POINT);
 #endif // EMSCRIPTEN
 	}
 }
 
-int sys_fs_init_is_done(void)
+int sys_fs_init_get_done(void)
 {
-	if (!fs_initialized) {
-		sys_printf("Please call sys_fs_init() first\n");
+	if (!fs_initialized)
+	{
 		printf("Please call sys_fs_init() first\n");
 		exit(1);
 	}
 
 	int status = 1;
 #ifdef EMSCRIPTEN
-	status = EM_ASM_INT({ return sys_fs_init_is_done; });
+	status = EM_ASM_INT( return sys_fs_init_is_done; );
 #endif // EMSCRIPTEN
 	return status;
 }
 
 void sys_fs_sync(void)
 {
-	if (!fs_initialized) {
-		sys_printf("Please call sys_fs_init() first\n");
+	if (!fs_initialized)
+	{
 		printf("Please call sys_fs_init() first\n");
 		exit(1);
 	}
 #ifdef EMSCRIPTEN
-	EM_ASM(
+	EM_ASM({
+		sys_fs_sync_is_done = 0;
 		FS.syncfs(false, function (err) {
 			if (err) alert('Error writing to filesystem');
-			//Module.print('sys_fs_sync done');
+			//Module.print('sys_fs_sync done, error ' + err);
+			sys_fs_sync_is_done = 1;
 		});
-	);
+	});
 #endif // EMSCRIPTEN
+}
+
+int sys_fs_sync_get_done(void)
+{
+	if (!fs_initialized)
+	{
+		printf("Please call sys_fs_init() first\n");
+		exit(1);
+	}
+
+	int status = 1;
+#ifdef EMSCRIPTEN
+	status = EM_ASM_INT( return sys_fs_sync_is_done; );
+#endif // EMSCRIPTEN
+	return status;
 }
 
 /* eof */

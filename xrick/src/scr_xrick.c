@@ -35,7 +35,7 @@ screen_xrick(void)
 	static U8 seq = 0;
 	static U8 wait = 0;
 
-	if (!sys_fs_init_is_done())
+	if (!sys_fs_init_get_done())
 	{
 		return SCREEN_RUNNING;
 	}
