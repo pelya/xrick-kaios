@@ -121,3 +121,5 @@ and developers need to go to KaiAds page to access the app install and usage sta
 If apps aren't monetized, Store team would mark it a low priority and the app will be on the bottom of the KaiStore category.
 
 In XRick, KaiAds are used only to monitor app install numbers, the ad is never shown during the game.
+
+TODO: after finishing the Jungle episode, the game jumps straight to the Castle episode, skipping the Egypt episode.
