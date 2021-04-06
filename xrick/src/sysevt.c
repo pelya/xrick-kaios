@@ -37,6 +37,14 @@ static SDL_Event event;
 static int window_visible = 0;
 static int window_input_focus = 0;
 
+#ifndef EMSCRIPTEN
+// Swap arrow keys to test the game on PC
+#define SDL_SCANCODE_UP    80
+#define SDL_SCANCODE_DOWN  79
+#define SDL_SCANCODE_LEFT  81
+#define SDL_SCANCODE_RIGHT 82
+#endif
+
 /*
  * Process an event
  */

@@ -26,9 +26,15 @@
 #define CONTROL_EXIT 0x20
 #define CONTROL_FIRE 0x10
 
+#ifdef EMSCRIPTEN
 #define KEY_BULLET		SDL_GetKeyboardState(NULL)[SDL_SCANCODE_8]
 #define KEY_BOMB		SDL_GetKeyboardState(NULL)[SDL_SCANCODE_KP_HASH]
 #define KEY_STICK		SDL_GetKeyboardState(NULL)[SDL_SCANCODE_9]
+#else
+#define KEY_BULLET		SDL_GetKeyboardState(NULL)[SDL_SCANCODE_Z]
+#define KEY_BOMB		SDL_GetKeyboardState(NULL)[SDL_SCANCODE_X]
+#define KEY_STICK		SDL_GetKeyboardState(NULL)[SDL_SCANCODE_C]
+#endif
 
 extern U8 control_status;
 extern U8 control_last;
