@@ -770,6 +770,7 @@ init(void)
       i++;
     map_frow = map_connect[i].rowin - 0x10; // WHY 0x10??
     ent_ents[1].y = 0x10 << 3; // FIXME?
+    env_map = sysarg_args_map;
   }
 
   ent_ents[1].x = map_maps[env_map].x;
