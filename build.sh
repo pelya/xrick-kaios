@@ -37,7 +37,7 @@ emcc $SRC/*.c -o xrick.html \
     -s USE_SDL=2 \
     -s FORCE_FILESYSTEM=1 \
     -s WASM=0 \
-    -D NOZLIB \
+    -D NOZLIB=1 \
     -l idbfs.js \
     -O3 \
     --preload-file "$DATA@/data.zip" \
