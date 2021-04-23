@@ -15,6 +15,7 @@
 #define _SYSTEM_H
 
 #include "config.h"
+#include "sys_kaios.h"
 
 #include <stddef.h> /* NULL */
 
@@ -70,16 +71,6 @@ extern void sys_panic(char *, ...) __attribute__((format(printf, 1, 2)));
 extern void sys_printf(char *, ...) __attribute__((format(printf, 1, 2)));
 extern U32 sys_gettime(void);
 extern void sys_sleep(int);
-
-#ifdef EMSCRIPTEN
-#define FS_WRITE_MOUNT_POINT "/save"
-#else
-#define FS_WRITE_MOUNT_POINT "."
-#endif
-extern void sys_fs_init(void);
-extern int sys_fs_init_get_done(void);
-extern void sys_fs_sync(void);
-extern int sys_fs_sync_get_done(void);
 
 #endif
 
