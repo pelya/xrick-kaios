@@ -24,55 +24,55 @@ This is all work-in-progress and will be updated.
 
 === KaiOS instructions ===
 
+KaiOS 2.5.2 has Firefox/Gecko version 48. It does not support WebAssembly, but it supports asm.js.
+You will need to add '-s WASM=0' to your Emscripten compiler flags.
+It also does not support SharedArrayBuffer, so pthreads multithreading is not available.
+
 Download and build Emscripten, as described on their page: https://emscripten.org/
 
 Put directory with emsdk script into your $PATH
 
-Launch build.sh
+Launch build-debug.sh or build-release.sh
 
-You should get compiled KaiOs package out/application.zip with manifest.webapp and Javascript code inside
+You should get compiled KaiOs package debug/application.zip or release/application.zip with manifest.webapp and Javascript code inside
 
 Patch SDL2 to enable '*' and '#' keys:
 
-Delete ~/.emscripten_cache/wasm-obj/libSDL2.a and ~/.emscripten_cache/wasm-obj/ports-builds/sdl2
+Delete emsdk/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/libSDL2.a and emsdk/upstream/emscripten/cache/ports-builds/sdl2
 
-Apply patch build/app/emscripten-kaios-keycodes.patch to SDL2 sources at ~/.emscripten_ports/sdl2
+Apply patch SDL_emscriptenevents.c.patch to SDL2 sources at emsdk/upstream/emscripten/cache/ports/sdl2
 
-Launch build.sh again, SDL2 should be recompiled automatically
+Launch build-debug.sh again, SDL2 should be recompiled automatically
 
 To install application.zip to your device, launch command:
 
-git submodule update --init --recursive
-
-Download XULRunner from http://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/18.0.2/sdk/
-
-Extract XULRunner to ~/bin - the file ~/bin/xulrunner-sdk/bin/xpcshell should be present
+    git submodule update --init --recursive
 
 Download and install ADB to path ~/bin/android-sdk/platform-tools/adb
 
-If you already have Android SDK installedm you can symlink it to your ~/bin directory:
+If you already have Android SDK installed, you can symlink it to your ~/bin directory:
 
-ln -s /path/to/android-sdk ~/bin/android-sdk
+    ln -s /path/to/android-sdk ~/bin/android-sdk
 
 On Debian, you can install adb from system packages:
 
-sudo apt-get install adb
+    sudo apt-get install adb
 
 Enable debug mode in your device by entering secret code on your home screen:
 
     *#*#33284#*#*
 
-Plug in USB cable, run install.sh
+Plug in USB cable, run 'install.sh debug' or 'install.sh release'
 
 You should see your app in the device app list, install script freezes at the end, you can kill it with Ctrl-C
 
 KaiOS devices generate following SDL2 keycodes:
 
-SDL_SCANCODE_BACKSPACE for 'Back' key, not present on all phones
+SDL_SCANCODE_BACKSPACE for 'Back' key
 
 SDL_SCANCODE_KP_ENTER for 'Call' key
 
-SDL_SCANCODE_ESCAPE for 'End Call' key
+SDL_SCANCODE_ESCAPE for 'End Call' key, not present on all phones
 
 SDL_SCANCODE_0 .. SDL_SCANCODE_9, SDL_SCANCODE_KP_HASH, SDL_SCANCODE_KP_MULTIPLY for numeric keyboard
 
@@ -82,12 +82,29 @@ SDL_SCANCODE_AC_FORWARD and SDL_SCANCODE_AC_BACK for LSK and RSK (left soft key 
 
 SDL_SCANCODE_VOLUMEUP and SDL_SCANCODE_VOLUMEDOWN for volume keys
 
-With Emscripten, your main loop should not block anywhere - do not call sleep() or SDL_Delay() or SDL_WaitEvent()
+By default all keypresses are passed to the OS, so for example holding D-Pad Center key for 2 seconds
+will launch Google Assistant while your app is active, and End Call key will close your app immediately.
+To prevent this, disable SDL_TEXTINPUT event after initializing video:
 
-Use emscripten_set_main_loop() to call your main loop function after you initialized video and everything else
+    SDL_EventState(SDL_TEXTINPUT, SDL_DISABLE);
 
-Use emscripten_cancel_main_loop() and EM_ASM( window.open('','_self').close(); ); to exit the app,
-if you simply call exit(0) the app won't clear it's state and will show black screen on the next launch
+If you are using landscape mode, the screen is rotated, but the D-Pad is not rotated,
+and keycodes SDL_SCANCODE_LEFT/RIGHT/UP/DOWN are sent for the wrong direction keys.
+To fix this, add '-D KAIOS_SWAP_NAVIGATION_KEYS=1' to your compiler flags, and include sys_kaios.h everywhere,
+it will redefine SDL keycodes for navigation keys for the D-Pad rotated to the side.
+
+With Emscripten, your main loop should not block anywhere - do not call sleep() or SDL_Delay() or SDL_WaitEvent().
+Use emscripten_set_main_loop() to call your main loop function after you initialized video and everything else.
+
+Alternatively, you can add parameter '-s ASYNCIFY=1' to your compiler flags, this will make your code
+unwind and rewind the stack whenever it enters sleep or screen update function, and process web browser main loop,
+this makes your app run significantly slower, but you don't need to rewrite your code at all.
+
+Use sys_exit_app() to close the app.
+if you simply call exit(0) the app won't clear it's state and will show black screen on the next launch.
+
+After calling SDL_CreateWindow(), call sys_hide_splash_image() to hide splash image.
+If you don't call it, the splash image is hidden automatically in 10 seconds.
 
 To write data to files that will not be deleted after you close the app, you have to mount a writable file system,
 and sync it after writing to file.
@@ -97,20 +114,30 @@ Then check for sys_fs_init_get_done() to return 1 in a loop, before reading or w
 Call sys_fs_sync() after writing any files, to push data to filesystem database.
 Then check for sys_fs_sync_get_done() to return 1 when FS sync is finished.
 
-To debug your code on the device, compile the app like this:
+To prevent the screen from sleeping, call sys_take_wake_lock(), and call sys_free_wake_lock() to enable sleep.
 
-env DEBUG=1 ./build.sh
+The app must mute any music or audio when the phone lid is closed or when the screen is dimmed.
+The app will receive SDL_WINDOWEVENT notifications from SDL. Whenever the app receives events
 
-then you can use printf() in the code to write debug messages to text area on screen
+    if (event.type == SDL_WINDOWEVENT && (
+        event.window.event == SDL_WINDOWEVENT_FOCUS_LOST ||
+        event.window.event == SDL_WINDOWEVENT_HIDDEN))
 
-KaiOS Store manually tests each app submission, and checks that it does not crash on phones with 256 Mb RAM.
+it must mute the audio using SDL_PauseAudio(1) call.
+The app can unmute the audio only after receiving both events
+SDL_WINDOWEVENT_SHOWN and SDL_WINDOWEVENT_FOCUS_GAINED.
+
+To debug your code on the device, compile the app using the script build-debug.sh,
+then you can use printf() in the code to write debug messages to the text area on the screen
+
+KaiStore manually tests each app submission, and checks that it does not crash on phones with 256 Mb RAM.
 You can monitor your app memory usage by using 'top' command and watching RSS memory usage:
 
-adb shell top -m 5 -s rss
+    adb shell top -m 5 -s rss
 
 QA testing may take from 2 days up to 3 weeks, if there are many other apps to test.
 
-Maximum size of application.zip for uploading to KaiOS Store is 6 Mb.
+Maximum size of application.zip for uploading to KaiOS Store is currently 20 Mb, and QA will complain if it's bigger than 6 Mb.
 
 The store does accept games in landscape mode. Device screen is 320x240 pixels, and SDL will stretch smaller video output to fullscreen.
 
@@ -119,8 +146,28 @@ KaiOS Store does provide app updates, however it would require user interaction.
 The KaiAds is deeply integrated to the KaiStore, the app analytics is part of the KaiAds SDK
 and developers need to go to KaiAds page to access the app install and usage statistics.
 
-If apps aren't monetized, Store team would mark it a low priority and the app will be on the bottom of the KaiStore category.
+If apps aren't monetized, KaiStore team would mark it a low priority and the QA might be delayed.
 
-In XRick, KaiAds are used only to monitor app install numbers, the ad is never shown during the game.
+To show a fullscreen advertisement, call sys_show_fullscreen_advertisement(),
+it should be accessible from somewhere in the app, like settings dialog.
 
-TODO: after finishing the Jungle episode, the game jumps straight to the Castle episode, skipping the Egypt episode.
+You will also need to modify publisher ID and app name in app/sys.js in getKaiAd().
+
+Netplay will likely never be added. WebRTC is hard.
+
+There is supposed to be a hidden API to use UDP sockets directly on KaiOS, without WebRTC wrappers:
+
+https://www.w3.org/TR/tcp-udp-sockets/
+
+https://developer.mozilla.org/en-US/docs/Archive/B2G_OS/API/UDPSocket
+
+It requires privileged app permissions - add following code to your manifest.webapp:
+
+    "type", "privileged",
+    "dependencies": {
+        "ads-sdk": "1.4.1"
+    }
+
+Privileged app cannot contain Javascript code embedded into HTML directly,
+you must use <script src="..."> everywhere, the embedded Javascript won't be executed.
+
