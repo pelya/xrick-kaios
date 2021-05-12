@@ -1,5 +1,6 @@
---- SDL_emscriptenevents.c-old	2021-03-23 00:30:38.756427025 +0200
-+++ SDL_emscriptenevents.c	2021-03-23 02:04:30.059127428 +0200
+diff -u -r SDL2-version_23-old/src/video/emscripten/SDL_emscriptenevents.c SDL2-version_23/src/video/emscripten/SDL_emscriptenevents.c
+--- SDL2-version_23-old/src/video/emscripten/SDL_emscriptenevents.c	2021-05-12 20:32:36.048790464 +0300
++++ SDL2-version_23/src/video/emscripten/SDL_emscriptenevents.c	2021-05-12 20:38:55.786872450 +0300
 @@ -138,7 +138,7 @@
      /*  92 */   SDL_SCANCODE_UNKNOWN,
      /*  93 */   SDL_SCANCODE_APPLICATION,
@@ -26,7 +27,7 @@
      /* 171 */   SDL_SCANCODE_RIGHTBRACKET,
      /* 172 */   SDL_SCANCODE_UNKNOWN,
      /* 173 */   SDL_SCANCODE_MINUS, /*FX*/
-@@ -485,6 +485,22 @@
+@@ -485,6 +485,25 @@
      if (keyEvent->keyCode < SDL_arraysize(emscripten_scancode_table)) {
          scancode = emscripten_scancode_table[keyEvent->keyCode];
  
@@ -44,12 +45,15 @@
 +            if (SDL_strncmp(keyEvent->key, "EndCall", 7) == 0) {
 +                scancode = SDL_SCANCODE_ESCAPE;
 +            }
++            if (SDL_strncmp(keyEvent->key, "Help", 4) == 0) {
++                scancode = SDL_SCANCODE_HELP;
++            }
 +        }
 +
          if (scancode != SDL_SCANCODE_UNKNOWN) {
  
              if (keyEvent->location == DOM_KEY_LOCATION_RIGHT) {
-@@ -573,6 +589,8 @@
+@@ -572,6 +591,8 @@
  
      if (eventType == EMSCRIPTEN_EVENT_KEYDOWN && SDL_GetEventState(SDL_TEXTINPUT) == SDL_ENABLE && !is_nav_key)
          prevent_default = SDL_FALSE;

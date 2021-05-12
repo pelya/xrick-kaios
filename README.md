@@ -82,6 +82,8 @@ SDL_SCANCODE_AC_FORWARD and SDL_SCANCODE_AC_BACK for LSK and RSK (left soft key 
 
 SDL_SCANCODE_VOLUMEUP and SDL_SCANCODE_VOLUMEDOWN for volume keys
 
+SDL_SCANCODE_HELP for Google Assistant button, it's not present on all phones, and it launches Google Assistant if you long-press it
+
 By default all keypresses are passed to the OS, so for example holding D-Pad Center key for 2 seconds
 will launch Google Assistant while your app is active, and End Call key will close your app immediately.
 To prevent this, disable SDL_TEXTINPUT event after initializing video:
@@ -137,11 +139,25 @@ You can monitor your app memory usage by using 'top' command and watching RSS me
 
 QA testing may take from 2 days up to 3 weeks, if there are many other apps to test.
 
+To detect the amount of RAM on the device - add following code to your manifest.webapp:
+
+    "type": "privileged",
+    "permissions": {
+        "feature-detection": {}
+    },
+    "dependencies": {
+        "ads-sdk": "1.4.1"
+    }
+
+Then you can use the function sys_get_device_ram_size_megabytes() to get RAM size in megabytes.
+KaiOS phones have either 256 or 512 MB RAM. Note that the amount of memory available to Javascript
+will be much smaller than the physical RAM size, around 200 MB for devices with 512 MB RAM.
+
 Maximum size of application.zip for uploading to KaiOS Store is currently 20 Mb, and QA will complain if it's bigger than 6 Mb.
 
-The store does accept games in landscape mode. Device screen is 320x240 pixels, and SDL will stretch smaller video output to fullscreen.
+The store accepts games in landscape mode. Device screen is 320x240 pixels, and SDL will stretch smaller video output to fullscreen.
 
-KaiOS Store does provide app updates, however it would require user interaction.
+KaiOS Store does provide app updates, however it would require user interaction, so it's discouraged.
 
 The KaiAds is deeply integrated to the KaiStore, the app analytics is part of the KaiAds SDK
 and developers need to go to KaiAds page to access the app install and usage statistics.
@@ -151,9 +167,8 @@ If apps aren't monetized, KaiStore team would mark it a low priority and the QA 
 To show a fullscreen advertisement, call sys_show_fullscreen_advertisement(),
 it should be accessible from somewhere in the app, like settings dialog.
 
-You will also need to modify publisher ID and app name in app/sys.js in getKaiAd().
-
-Netplay will likely never be added. WebRTC is hard.
+You will need to modify publisher ID and app name in app/sys.js in sys_fetch_new_advertisement().
+App name should also be changed in app/index.html.
 
 There is supposed to be a hidden API to use UDP sockets directly on KaiOS, without WebRTC wrappers:
 
@@ -171,3 +186,9 @@ It requires privileged app permissions - add following code to your manifest.web
 Privileged app cannot contain Javascript code embedded into HTML directly,
 you must use <script src="..."> everywhere, the embedded Javascript won't be executed.
 
+It is possible to read files from SD card without "device-storage:sdcard" permission,
+by registering an activity to accept the file from the file manager or from Downloads app:
+
+https://github.com/pelya/doom-kaios/blob/master/app/manifest.webapp#L36
+
+https://github.com/pelya/doom-kaios/blob/master/app/sys.js#L125
